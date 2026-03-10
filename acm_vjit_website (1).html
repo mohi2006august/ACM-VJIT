@@ -1,0 +1,2755 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACM VJIT — Student Chapter · Hyderabad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   ROOT VARIABLES + RESET
+═══════════════════════════════════════════ */
+:root {
+  --blue-core: #0f8fff;
+  --blue-bright: #40c4ff;
+  --blue-deep: #0050b3;
+  --cyan: #00e5ff;
+  --white: #e8f4ff;
+  --bg: #020810;
+  --bg2: #040d1a;
+  --bg3: #071428;
+  --card: rgba(7,20,40,0.85);
+  --border: rgba(15,143,255,0.2);
+  --border-bright: rgba(64,196,255,0.4);
+  --text: #c8e4ff;
+  --text-dim: rgba(160,210,255,0.55);
+  --success: #00e676;
+  --warning: #ffab40;
+  --glow-sm: 0 0 10px rgba(15,143,255,0.4);
+  --glow-md: 0 0 20px rgba(15,143,255,0.5), 0 0 40px rgba(15,143,255,0.2);
+  --glow-lg: 0 0 30px rgba(64,196,255,0.5), 0 0 60px rgba(15,143,255,0.3);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --transition: 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+[data-theme="light"] {
+  --bg: #f0f6ff;
+  --bg2: #e4effc;
+  --bg3: #dce9fa;
+  --card: rgba(255,255,255,0.85);
+  --border: rgba(15,143,255,0.25);
+  --border-bright: rgba(0,80,179,0.4);
+  --text: #0a1a2e;
+  --text-dim: rgba(10,26,46,0.55);
+  --white: #0a1a2e;
+  --glow-sm: 0 2px 12px rgba(15,143,255,0.15);
+  --glow-md: 0 4px 24px rgba(15,143,255,0.2);
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Exo 2',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+  transition:background 0.4s,color 0.4s;
+}
+a{color:var(--blue-bright);text-decoration:none}
+button{cursor:pointer;font-family:'Exo 2',sans-serif}
+img{max-width:100%}
+
+/* ═══════════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════════ */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--blue-deep);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--blue-core)}
+
+/* ═══════════════════════════════════════════
+   CANVAS STARS
+═══════════════════════════════════════════ */
+#stars-canvas{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  opacity:1;transition:opacity 0.4s;
+}
+[data-theme="light"] #stars-canvas{opacity:0.1}
+
+/* ═══════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════ */
+.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 40px;height:64px;
+  background:rgba(2,8,16,0.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  transition:all 0.3s;
+}
+[data-theme="light"] .navbar{background:rgba(240,246,255,0.9)}
+.nav-logo{
+  display:flex;align-items:center;gap:12px;cursor:pointer;
+}
+.nav-logo-icon{
+  width:36px;height:36px;
+  border:2px solid var(--blue-core);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Orbitron',sans-serif;font-weight:900;font-size:11px;
+  color:var(--blue-bright);
+  box-shadow:var(--glow-sm);
+  animation:navLogoPulse 3s ease-in-out infinite;
+}
+@keyframes navLogoPulse{
+  0%,100%{box-shadow:0 0 8px rgba(15,143,255,0.4)}
+  50%{box-shadow:0 0 16px rgba(64,196,255,0.7)}
+}
+.nav-logo-text{
+  font-family:'Orbitron',sans-serif;font-weight:700;font-size:14px;
+  letter-spacing:3px;color:var(--white);
+}
+.nav-links{
+  display:flex;align-items:center;gap:6px;list-style:none;
+}
+.nav-links a{
+  padding:6px 14px;
+  font-size:12px;font-weight:500;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--text-dim);
+  border-radius:6px;transition:all 0.25s;position:relative;
+}
+.nav-links a:hover,.nav-links a.active{
+  color:var(--blue-bright);
+  background:rgba(15,143,255,0.08);
+}
+.nav-links a.active::after{
+  content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);
+  width:20px;height:2px;background:var(--cyan);border-radius:2px;
+}
+.nav-actions{display:flex;align-items:center;gap:12px}
+.btn-theme{
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(15,143,255,0.1);
+  border:1px solid var(--border-bright);
+  color:var(--blue-bright);font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.25s;
+}
+.btn-theme:hover{background:rgba(15,143,255,0.2);box-shadow:var(--glow-sm)}
+.btn-join-nav{
+  padding:8px 20px;
+  background:linear-gradient(135deg,var(--blue-core),var(--blue-bright));
+  border:none;border-radius:20px;
+  color:#fff;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  box-shadow:var(--glow-sm);transition:all 0.25s;
+}
+.btn-join-nav:hover{box-shadow:var(--glow-md);transform:translateY(-1px)}
+.hamburger{
+  display:none;flex-direction:column;gap:5px;cursor:pointer;
+  background:none;border:none;padding:4px;
+}
+.hamburger span{
+  width:22px;height:2px;background:var(--blue-bright);
+  border-radius:2px;transition:all 0.3s;display:block;
+}
+
+/* ═══════════════════════════════════════════
+   MOBILE NAV
+═══════════════════════════════════════════ */
+.mobile-menu{
+  display:none;position:fixed;inset:0;z-index:999;
+  background:rgba(2,8,16,0.98);backdrop-filter:blur(20px);
+  flex-direction:column;align-items:center;justify-content:center;gap:28px;
+}
+.mobile-menu.open{display:flex}
+.mobile-menu a{
+  font-family:'Orbitron',sans-serif;font-size:18px;letter-spacing:3px;
+  color:var(--text-dim);text-transform:uppercase;transition:color 0.2s;
+}
+.mobile-menu a:hover{color:var(--blue-bright)}
+.mobile-close{
+  position:absolute;top:24px;right:30px;
+  background:none;border:none;color:var(--blue-bright);font-size:28px;
+}
+
+/* ═══════════════════════════════════════════
+   PAGE SYSTEM
+═══════════════════════════════════════════ */
+.page{display:none;min-height:100vh;padding-top:64px}
+.page.active{display:block}
+
+/* ═══════════════════════════════════════════
+   SECTION WRAPPER
+═══════════════════════════════════════════ */
+.section{padding:80px 40px;max-width:1200px;margin:0 auto}
+.section-sm{padding:60px 40px;max-width:1200px;margin:0 auto}
+
+/* ═══════════════════════════════════════════
+   SECTION HEADERS
+═══════════════════════════════════════════ */
+.section-tag{
+  font-family:'Space Mono',monospace;font-size:11px;
+  letter-spacing:4px;text-transform:uppercase;
+  color:var(--cyan);margin-bottom:12px;display:block;
+}
+.section-title{
+  font-family:'Orbitron',sans-serif;font-weight:700;
+  font-size:clamp(28px,4vw,44px);
+  color:var(--white);line-height:1.15;margin-bottom:16px;
+}
+.section-title span{
+  background:linear-gradient(135deg,var(--blue-bright),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.section-desc{
+  font-size:15px;color:var(--text-dim);line-height:1.8;
+  max-width:600px;
+}
+
+/* ═══════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════ */
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 32px;
+  background:linear-gradient(135deg,var(--blue-core),var(--blue-bright));
+  border:none;border-radius:30px;
+  color:#fff;font-size:14px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  box-shadow:var(--glow-md);transition:all var(--transition);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:var(--glow-lg)}
+.btn-outline{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 30px;
+  background:transparent;
+  border:1.5px solid var(--blue-bright);border-radius:30px;
+  color:var(--blue-bright);font-size:14px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  transition:all var(--transition);
+}
+.btn-outline:hover{
+  background:rgba(64,196,255,0.1);box-shadow:var(--glow-sm);transform:translateY(-2px);
+}
+
+/* ═══════════════════════════════════════════
+   CARDS
+═══════════════════════════════════════════ */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:28px;
+  backdrop-filter:blur(10px);
+  transition:all var(--transition);
+  position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(15,143,255,0.04),transparent);
+  pointer-events:none;
+}
+.card:hover{
+  border-color:var(--border-bright);
+  box-shadow:0 8px 40px rgba(15,143,255,0.15);
+  transform:translateY(-3px);
+}
+
+/* ═══════════════════════════════════════════
+   GRID LAYOUTS
+═══════════════════════════════════════════ */
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+@media(max-width:900px){
+  .grid-3,.grid-4{grid-template-columns:repeat(2,1fr)}
+  .grid-2{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+  .section,.section-sm{padding:60px 20px}
+}
+
+/* ═══════════════════════════════════════════
+   DIVIDER
+═══════════════════════════════════════════ */
+.divider{
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--blue-core),transparent);
+  opacity:0.3;margin:0 auto;
+}
+
+/* ═══════════════════════════════════════════
+   BADGES
+═══════════════════════════════════════════ */
+.badge{
+  display:inline-block;padding:3px 10px;
+  border-radius:20px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+}
+.badge-blue{background:rgba(15,143,255,0.15);color:var(--blue-bright);border:1px solid rgba(15,143,255,0.3)}
+.badge-cyan{background:rgba(0,229,255,0.12);color:var(--cyan);border:1px solid rgba(0,229,255,0.25)}
+.badge-green{background:rgba(0,230,118,0.12);color:#00e676;border:1px solid rgba(0,230,118,0.25)}
+.badge-orange{background:rgba(255,171,64,0.12);color:#ffab40;border:1px solid rgba(255,171,64,0.25)}
+
+/* ═══════════════════════════════════════════
+   GLITCH EFFECT
+═══════════════════════════════════════════ */
+.glitch{position:relative}
+.glitch::before,.glitch::after{
+  content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%;
+}
+.glitch::before{
+  color:var(--cyan);animation:glitch1 3s infinite;clip-path:polygon(0 0,100% 0,100% 35%,0 35%);
+}
+.glitch::after{
+  color:var(--blue-core);animation:glitch2 3s infinite;clip-path:polygon(0 65%,100% 65%,100% 100%,0 100%);
+}
+@keyframes glitch1{
+  0%,90%,100%{transform:translate(0)}
+  92%{transform:translate(-2px,1px)}
+  94%{transform:translate(2px,-1px)}
+  96%{transform:translate(0)}
+}
+@keyframes glitch2{
+  0%,90%,100%{transform:translate(0)}
+  93%{transform:translate(2px,1px)}
+  95%{transform:translate(-2px,-1px)}
+  97%{transform:translate(0)}
+}
+
+/* ═══════════════════════════════════════════
+   FLOATING ELEMENTS
+═══════════════════════════════════════════ */
+.float-up{animation:floatUp 6s ease-in-out infinite}
+.float-up2{animation:floatUp 6s ease-in-out 2s infinite}
+@keyframes floatUp{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-12px)}
+}
+
+/* ═══════════════════════════════════════════
+   HERO SECTION
+═══════════════════════════════════════════ */
+.hero{
+  min-height:calc(100vh - 64px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:60px 40px 40px;
+  position:relative;overflow:hidden;
+}
+.hero-grid-bg{
+  position:absolute;inset:0;z-index:0;
+  background-image:
+    linear-gradient(rgba(15,143,255,0.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(15,143,255,0.05) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%);
+}
+.hero-content{position:relative;z-index:1;max-width:900px}
+
+/* ACM Logo in hero */
+.hero-logo-wrap{
+  position:relative;width:min(520px,90vw);height:auto;
+  margin:0 auto 32px;
+}
+.hero-logo-svg{width:100%;height:auto;overflow:visible}
+
+.hero-tagline{
+  font-family:'Space Mono',monospace;font-size:11px;
+  letter-spacing:6px;text-transform:uppercase;
+  color:var(--cyan);margin-bottom:20px;opacity:0.8;
+}
+.hero-title{
+  font-family:'Orbitron',sans-serif;font-weight:900;
+  font-size:clamp(26px,5vw,56px);
+  color:var(--white);line-height:1.2;margin-bottom:20px;
+}
+.hero-title .accent{
+  background:linear-gradient(135deg,var(--blue-bright),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{
+  font-size:16px;color:var(--text-dim);line-height:1.8;
+  max-width:580px;margin:0 auto 36px;
+}
+.hero-cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:60px}
+
+/* Stats band */
+.stats-band{
+  display:flex;gap:0;flex-wrap:wrap;justify-content:center;
+  border:1px solid var(--border);border-radius:16px;
+  overflow:hidden;background:var(--card);backdrop-filter:blur(10px);
+  max-width:700px;margin:0 auto;
+}
+.stat-item{
+  flex:1;min-width:140px;padding:24px 20px;text-align:center;
+  border-right:1px solid var(--border);
+  position:relative;
+}
+.stat-item:last-child{border-right:none}
+.stat-num{
+  font-family:'Orbitron',sans-serif;font-weight:900;
+  font-size:32px;
+  background:linear-gradient(135deg,var(--blue-bright),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  display:block;margin-bottom:4px;
+}
+.stat-label{
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--text-dim);font-weight:500;
+}
+
+/* Scroll indicator */
+.scroll-hint{
+  position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  opacity:0.5;animation:scrollBounce 2s ease-in-out infinite;
+}
+.scroll-hint span{font-size:10px;letter-spacing:3px;color:var(--text-dim)}
+.scroll-arrow{width:20px;height:20px;border-right:2px solid var(--blue-bright);border-bottom:2px solid var(--blue-bright);transform:rotate(45deg)}
+@keyframes scrollBounce{
+  0%,100%{transform:translateX(-50%) translateY(0)}
+  50%{transform:translateX(-50%) translateY(6px)}
+}
+
+/* ═══════════════════════════════════════════
+   FEATURES STRIP (hero bottom)
+═══════════════════════════════════════════ */
+.features-strip{
+  background:linear-gradient(180deg,transparent,var(--bg2));
+  padding:60px 40px;
+}
+.features-strip-inner{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:28px;
+}
+@media(max-width:700px){.features-strip-inner{grid-template-columns:1fr}}
+.feat-card{
+  display:flex;gap:16px;align-items:flex-start;
+  padding:24px;border-radius:12px;
+  background:var(--card);border:1px solid var(--border);
+  transition:all 0.3s;
+}
+.feat-card:hover{border-color:var(--border-bright);transform:translateY(-2px)}
+.feat-icon{
+  width:44px;height:44px;min-width:44px;border-radius:10px;
+  background:rgba(15,143,255,0.12);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+}
+.feat-title{font-weight:700;font-size:14px;color:var(--white);margin-bottom:4px}
+.feat-desc{font-size:12px;color:var(--text-dim);line-height:1.7}
+
+/* ═══════════════════════════════════════════
+   ABOUT PAGE
+═══════════════════════════════════════════ */
+.about-hero{
+  background:linear-gradient(135deg,var(--bg) 0%,var(--bg3) 100%);
+  padding:80px 40px 60px;text-align:center;position:relative;overflow:hidden;
+}
+.about-hero::before{
+  content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);
+  width:600px;height:400px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(15,143,255,0.08),transparent 70%);
+  pointer-events:none;
+}
+.mission-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px;
+}
+@media(max-width:700px){.mission-grid{grid-template-columns:1fr}}
+.mission-card{
+  padding:32px 24px;text-align:center;
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  transition:all 0.3s;
+}
+.mission-card:hover{border-color:var(--border-bright);box-shadow:0 0 30px rgba(15,143,255,0.1)}
+.mission-icon{font-size:36px;margin-bottom:16px;display:block}
+.mission-label{
+  font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:3px;
+  color:var(--cyan);text-transform:uppercase;margin-bottom:8px;display:block;
+}
+.mission-text{font-size:13px;color:var(--text-dim);line-height:1.8}
+
+/* Timeline */
+.timeline{position:relative;padding:20px 0}
+.timeline::before{
+  content:'';position:absolute;left:50%;transform:translateX(-50%);
+  top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,transparent,var(--blue-core),transparent);
+}
+.tl-item{
+  display:flex;gap:40px;margin-bottom:40px;
+  align-items:flex-start;
+}
+.tl-item:nth-child(even){flex-direction:row-reverse}
+.tl-side{flex:1}
+.tl-item:nth-child(even) .tl-side{text-align:right}
+.tl-dot{
+  width:14px;height:14px;min-width:14px;border-radius:50%;
+  background:var(--blue-core);box-shadow:0 0 12px var(--blue-core);
+  margin-top:6px;position:relative;z-index:1;
+}
+.tl-year{
+  font-family:'Orbitron',sans-serif;font-size:12px;
+  color:var(--cyan);letter-spacing:2px;margin-bottom:6px;
+}
+.tl-title{font-weight:700;font-size:15px;color:var(--white);margin-bottom:4px}
+.tl-desc{font-size:13px;color:var(--text-dim);line-height:1.7}
+@media(max-width:600px){
+  .timeline::before{left:20px}
+  .tl-item,.tl-item:nth-child(even){flex-direction:row;gap:20px}
+  .tl-item:nth-child(even) .tl-side{text-align:left}
+}
+
+/* ═══════════════════════════════════════════
+   TEAM PAGE
+═══════════════════════════════════════════ */
+.team-hero{
+  background:linear-gradient(135deg,var(--bg),var(--bg3));
+  padding:80px 40px 40px;text-align:center;
+}
+.team-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:24px;margin-top:40px;
+}
+.team-card{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  overflow:hidden;transition:all 0.3s;text-align:center;
+}
+.team-card:hover{border-color:var(--border-bright);transform:translateY(-4px);box-shadow:0 12px 40px rgba(15,143,255,0.15)}
+.team-avatar{
+  width:100%;aspect-ratio:1;
+  display:flex;align-items:center;justify-content:center;
+  font-size:48px;
+  background:linear-gradient(135deg,var(--bg3),rgba(15,143,255,0.1));
+  position:relative;overflow:hidden;
+}
+.team-avatar::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:40%;
+  background:linear-gradient(transparent,var(--card));
+}
+.team-info{padding:18px 16px 20px}
+.team-name{font-weight:700;font-size:15px;color:var(--white);margin-bottom:3px}
+.team-role{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--cyan);margin-bottom:12px}
+.team-links{display:flex;gap:8px;justify-content:center}
+.team-link{
+  width:30px;height:30px;border-radius:6px;
+  background:rgba(15,143,255,0.1);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;color:var(--blue-bright);transition:all 0.2s;
+}
+.team-link:hover{background:rgba(15,143,255,0.2);box-shadow:var(--glow-sm)}
+
+/* ═══════════════════════════════════════════
+   EVENTS PAGE
+═══════════════════════════════════════════ */
+.events-hero{padding:80px 40px 40px;text-align:center;background:linear-gradient(135deg,var(--bg),var(--bg3))}
+.countdown-section{
+  background:linear-gradient(135deg,rgba(15,143,255,0.08),rgba(0,229,255,0.05));
+  border:1px solid var(--border);border-radius:20px;
+  padding:40px;margin:40px 0;text-align:center;
+}
+.countdown-label{
+  font-size:11px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--cyan);margin-bottom:8px;
+}
+.countdown-event-name{
+  font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700;
+  color:var(--white);margin-bottom:28px;
+}
+.countdown-grid{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.cd-unit{
+  min-width:80px;padding:16px 20px;
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  text-align:center;
+}
+.cd-num{
+  font-family:'Orbitron',sans-serif;font-size:36px;font-weight:900;
+  background:linear-gradient(135deg,var(--blue-bright),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  display:block;line-height:1;
+}
+.cd-label{font-size:10px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-top:6px}
+.events-tabs{
+  display:flex;gap:0;
+  border:1px solid var(--border);border-radius:10px;overflow:hidden;
+  width:fit-content;margin:0 auto 32px;
+}
+.events-tab{
+  padding:10px 28px;background:transparent;
+  border:none;color:var(--text-dim);font-size:13px;font-weight:600;
+  letter-spacing:1px;text-transform:uppercase;transition:all 0.2s;
+}
+.events-tab.active{background:rgba(15,143,255,0.15);color:var(--blue-bright)}
+.event-card{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  overflow:hidden;transition:all 0.3s;display:flex;flex-direction:column;
+}
+.event-card:hover{border-color:var(--border-bright);transform:translateY(-4px);box-shadow:0 12px 40px rgba(15,143,255,0.15)}
+.event-poster{
+  height:160px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:52px;position:relative;overflow:hidden;
+}
+.event-body{padding:20px}
+.event-title{font-weight:700;font-size:16px;color:var(--white);margin-bottom:8px}
+.event-meta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.event-meta span{font-size:12px;color:var(--text-dim);display:flex;align-items:center;gap:4px}
+.event-desc{font-size:13px;color:var(--text-dim);line-height:1.7;margin-bottom:16px}
+.event-footer{margin-top:auto;padding:14px 20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+
+/* ═══════════════════════════════════════════
+   PROJECTS PAGE
+═══════════════════════════════════════════ */
+.projects-hero{padding:80px 40px 40px;text-align:center;background:linear-gradient(135deg,var(--bg),var(--bg3))}
+.project-card{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  overflow:hidden;transition:all 0.35s;position:relative;cursor:pointer;
+}
+.project-card:hover{border-color:var(--border-bright);box-shadow:0 16px 48px rgba(15,143,255,0.2)}
+.project-card:hover .project-overlay{opacity:1}
+.project-thumb{
+  height:200px;display:flex;align-items:center;justify-content:center;
+  font-size:56px;background:linear-gradient(135deg,var(--bg3),rgba(15,143,255,0.08));
+  border-bottom:1px solid var(--border);
+}
+.project-overlay{
+  position:absolute;top:0;left:0;right:0;height:200px;
+  background:linear-gradient(135deg,rgba(15,143,255,0.25),rgba(0,229,255,0.15));
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity 0.3s;
+  font-size:13px;font-weight:600;letter-spacing:2px;color:#fff;text-transform:uppercase;
+  gap:8px;
+}
+.project-body{padding:20px}
+.project-title{font-weight:700;font-size:16px;color:var(--white);margin-bottom:6px}
+.project-tags{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.project-tag{
+  font-size:10px;padding:3px 8px;border-radius:4px;
+  background:rgba(15,143,255,0.1);color:var(--blue-bright);
+  border:1px solid rgba(15,143,255,0.2);letter-spacing:0.5px;
+}
+.project-desc{font-size:13px;color:var(--text-dim);line-height:1.7}
+
+/* ═══════════════════════════════════════════
+   BLOG PAGE
+═══════════════════════════════════════════ */
+.blog-card{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  overflow:hidden;transition:all 0.3s;display:flex;flex-direction:column;
+}
+.blog-card:hover{border-color:var(--border-bright);transform:translateY(-3px);box-shadow:0 10px 36px rgba(15,143,255,0.15)}
+.blog-header{
+  height:140px;display:flex;align-items:center;justify-content:center;
+  font-size:48px;background:linear-gradient(135deg,var(--bg3),rgba(15,143,255,0.1));
+  border-bottom:1px solid var(--border);
+}
+.blog-body{padding:20px;flex:1;display:flex;flex-direction:column}
+.blog-meta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.blog-title{font-weight:700;font-size:16px;color:var(--white);margin-bottom:8px;line-height:1.4}
+.blog-excerpt{font-size:13px;color:var(--text-dim);line-height:1.7;flex:1}
+.blog-author{
+  display:flex;align-items:center;gap:10px;
+  margin-top:16px;padding-top:14px;border-top:1px solid var(--border);
+}
+.blog-avatar{
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(15,143,255,0.2);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:14px;
+}
+.blog-author-name{font-size:12px;font-weight:600;color:var(--white)}
+.blog-date{font-size:11px;color:var(--text-dim)}
+
+/* Resources */
+.resource-item{
+  display:flex;align-items:center;gap:16px;
+  padding:16px 20px;
+  background:var(--card);border:1px solid var(--border);border-radius:10px;
+  transition:all 0.2s;cursor:pointer;
+}
+.resource-item:hover{border-color:var(--border-bright);background:rgba(15,143,255,0.05)}
+.resource-icon{
+  width:40px;height:40px;min-width:40px;border-radius:8px;
+  background:rgba(15,143,255,0.12);
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+.resource-title{font-weight:600;font-size:14px;color:var(--white);margin-bottom:2px}
+.resource-desc{font-size:12px;color:var(--text-dim)}
+.resource-arrow{margin-left:auto;font-size:18px;color:var(--blue-bright);opacity:0.6}
+
+/* ═══════════════════════════════════════════
+   GALLERY PAGE
+═══════════════════════════════════════════ */
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:16px;margin-top:32px;
+}
+.gallery-item{
+  border-radius:12px;overflow:hidden;
+  aspect-ratio:4/3;
+  background:linear-gradient(135deg,var(--bg3),rgba(15,143,255,0.1));
+  border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:48px;position:relative;cursor:pointer;
+  transition:all 0.3s;
+}
+.gallery-item:hover{border-color:var(--border-bright);transform:scale(1.02);box-shadow:var(--glow-md)}
+.gallery-item .gallery-label{
+  position:absolute;bottom:0;left:0;right:0;padding:12px 16px;
+  background:linear-gradient(transparent,rgba(2,8,16,0.85));
+  font-size:12px;color:var(--white);font-weight:600;
+  transform:translateY(100%);transition:transform 0.3s;
+}
+.gallery-item:hover .gallery-label{transform:translateY(0)}
+
+/* ═══════════════════════════════════════════
+   JOIN PAGE
+═══════════════════════════════════════════ */
+.join-hero{padding:80px 40px 40px;text-align:center;background:linear-gradient(135deg,var(--bg),var(--bg3))}
+.benefits-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:48px;
+}
+@media(max-width:640px){.benefits-grid{grid-template-columns:1fr}}
+.benefit-item{
+  display:flex;gap:14px;align-items:flex-start;
+  padding:18px;background:var(--card);border:1px solid var(--border);border-radius:12px;
+}
+.benefit-check{
+  width:28px;height:28px;min-width:28px;border-radius:50%;
+  background:rgba(0,230,118,0.12);border:1px solid rgba(0,230,118,0.25);
+  display:flex;align-items:center;justify-content:center;
+  color:#00e676;font-size:13px;
+}
+.join-form{
+  background:var(--card);border:1px solid var(--border);border-radius:20px;
+  padding:40px;max-width:600px;margin:0 auto;
+}
+.form-group{margin-bottom:20px}
+.form-label{
+  display:block;font-size:12px;font-weight:600;letter-spacing:1px;
+  text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;
+}
+.form-input,.form-select,.form-textarea{
+  width:100%;padding:12px 16px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--border);border-radius:8px;
+  color:var(--text);font-family:'Exo 2',sans-serif;font-size:14px;
+  transition:all 0.2s;outline:none;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{
+  border-color:var(--blue-bright);box-shadow:0 0 0 3px rgba(15,143,255,0.1);
+}
+.form-textarea{resize:vertical;min-height:100px}
+.form-select{appearance:none;cursor:pointer}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:500px){.form-row{grid-template-columns:1fr}}
+
+/* ═══════════════════════════════════════════
+   CONTACT PAGE
+═══════════════════════════════════════════ */
+.contact-grid{
+  display:grid;grid-template-columns:1fr 1.2fr;gap:40px;
+  align-items:start;margin-top:40px;
+}
+@media(max-width:800px){.contact-grid{grid-template-columns:1fr}}
+.contact-info-item{
+  display:flex;gap:14px;align-items:flex-start;margin-bottom:24px;
+}
+.contact-icon{
+  width:44px;height:44px;min-width:44px;border-radius:10px;
+  background:rgba(15,143,255,0.1);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+.social-links{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap}
+.social-link{
+  width:42px;height:42px;border-radius:10px;
+  background:rgba(15,143,255,0.1);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+  color:var(--blue-bright);transition:all 0.2s;
+}
+.social-link:hover{background:rgba(15,143,255,0.2);box-shadow:var(--glow-sm);transform:translateY(-2px)}
+.map-placeholder{
+  height:280px;border-radius:16px;
+  background:linear-gradient(135deg,var(--bg3),rgba(15,143,255,0.08));
+  border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:12px;
+  font-size:14px;color:var(--text-dim);margin-top:20px;
+}
+.map-placeholder .map-pin{font-size:32px;filter:drop-shadow(0 0 10px rgba(15,143,255,0.5))}
+
+/* ═══════════════════════════════════════════
+   DASHBOARD PAGE
+═══════════════════════════════════════════ */
+.dashboard-hero{padding:60px 40px 40px;background:linear-gradient(135deg,var(--bg),var(--bg3))}
+.dashboard-grid{
+  display:grid;grid-template-columns:240px 1fr;gap:28px;
+  max-width:1200px;margin:0 auto;padding:0 40px 80px;
+}
+@media(max-width:900px){.dashboard-grid{grid-template-columns:1fr}}
+.dash-sidebar{
+  display:flex;flex-direction:column;gap:8px;
+}
+.dash-nav-item{
+  padding:12px 16px;border-radius:8px;cursor:pointer;
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;font-weight:500;color:var(--text-dim);
+  border:1px solid transparent;transition:all 0.2s;
+}
+.dash-nav-item:hover,.dash-nav-item.active{
+  background:rgba(15,143,255,0.08);border-color:var(--border);
+  color:var(--blue-bright);
+}
+.dash-nav-item .icon{font-size:16px}
+.dash-main{display:flex;flex-direction:column;gap:20px}
+.dash-welcome{
+  background:linear-gradient(135deg,rgba(15,143,255,0.12),rgba(0,229,255,0.06));
+  border:1px solid var(--border);border-radius:16px;
+  padding:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;
+}
+.dash-welcome-text h2{font-family:'Orbitron',sans-serif;font-size:18px;color:var(--white);margin-bottom:4px}
+.dash-welcome-text p{font-size:13px;color:var(--text-dim)}
+.dash-stat-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:600px){.dash-stat-cards{grid-template-columns:1fr}}
+.dash-stat{
+  padding:20px;background:var(--card);border:1px solid var(--border);border-radius:12px;
+  text-align:center;
+}
+.dash-stat-n{font-family:'Orbitron',sans-serif;font-size:24px;font-weight:700;
+  background:linear-gradient(135deg,var(--blue-bright),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.dash-stat-l{font-size:11px;color:var(--text-dim);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px}
+.announcement-list{display:flex;flex-direction:column;gap:10px}
+.announcement{
+  padding:14px 18px;background:var(--card);border:1px solid var(--border);border-radius:10px;
+  display:flex;align-items:flex-start;gap:12px;
+}
+.ann-dot{
+  width:8px;height:8px;min-width:8px;border-radius:50%;
+  background:var(--cyan);box-shadow:0 0 6px var(--cyan);margin-top:5px;
+}
+.ann-title{font-size:13px;font-weight:600;color:var(--white);margin-bottom:2px}
+.ann-date{font-size:11px;color:var(--text-dim)}
+
+/* ═══════════════════════════════════════════
+   ACHIEVEMENT WALL
+═══════════════════════════════════════════ */
+.achievement-wall-section{
+  background:linear-gradient(180deg,var(--bg),var(--bg2));
+  padding:80px 40px;
+}
+.achievement-header{text-align:center;margin-bottom:48px}
+.ach-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:24px;max-width:1100px;margin:0 auto;
+}
+.ach-card{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  padding:28px;text-align:center;
+  transition:all 0.3s;position:relative;overflow:hidden;
+}
+.ach-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,215,0,0.04),transparent);
+  pointer-events:none;
+}
+.ach-card:hover{border-color:rgba(255,215,0,0.3);box-shadow:0 8px 30px rgba(255,215,0,0.08);transform:translateY(-3px)}
+.ach-trophy{font-size:48px;margin-bottom:12px;display:block}
+.ach-year{font-size:10px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;margin-bottom:8px}
+.ach-title{font-weight:700;font-size:15px;color:var(--white);margin-bottom:6px}
+.ach-desc{font-size:12px;color:var(--text-dim);line-height:1.7}
+.ach-badge-gold{
+  display:inline-block;padding:3px 10px;
+  background:rgba(255,215,0,0.12);color:#ffd700;
+  border:1px solid rgba(255,215,0,0.25);border-radius:20px;
+  font-size:10px;letter-spacing:1px;text-transform:uppercase;
+  margin-top:10px;
+}
+
+/* ═══════════════════════════════════════════
+   COMMUNITY DISCUSSION
+═══════════════════════════════════════════ */
+.community-section{padding:80px 40px}
+.discussion-composer{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  padding:24px;margin-bottom:28px;
+}
+.composer-input{
+  width:100%;padding:14px 16px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--border);border-radius:10px;
+  color:var(--text);font-family:'Exo 2',sans-serif;font-size:14px;
+  resize:none;outline:none;transition:border 0.2s;min-height:80px;
+}
+.composer-input:focus{border-color:var(--blue-bright);box-shadow:0 0 0 3px rgba(15,143,255,0.1)}
+.composer-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:12px;flex-wrap:wrap;gap:10px;
+}
+.topic-tags{display:flex;gap:6px;flex-wrap:wrap}
+.topic-tag-btn{
+  padding:4px 12px;border-radius:20px;
+  background:rgba(15,143,255,0.08);border:1px solid var(--border);
+  color:var(--text-dim);font-size:11px;cursor:pointer;transition:all 0.2s;
+}
+.topic-tag-btn:hover,.topic-tag-btn.selected{
+  background:rgba(15,143,255,0.15);border-color:var(--blue-bright);color:var(--blue-bright);
+}
+.post-list{display:flex;flex-direction:column;gap:16px}
+.post-card{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:22px;transition:all 0.2s;
+}
+.post-card:hover{border-color:var(--border-bright)}
+.post-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.post-avatar{
+  width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(135deg,var(--blue-deep),var(--blue-core));
+  display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;
+}
+.post-author{font-weight:600;font-size:14px;color:var(--white)}
+.post-time{font-size:11px;color:var(--text-dim)}
+.post-content{font-size:14px;color:var(--text);line-height:1.7;margin-bottom:14px}
+.post-actions{display:flex;gap:16px;align-items:center}
+.post-action-btn{
+  display:flex;align-items:center;gap:5px;
+  background:none;border:none;color:var(--text-dim);
+  font-size:12px;font-family:'Exo 2',sans-serif;
+  transition:color 0.2s;cursor:pointer;padding:4px 6px;border-radius:6px;
+}
+.post-action-btn:hover{color:var(--blue-bright);background:rgba(15,143,255,0.08)}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer{
+  background:var(--bg2);border-top:1px solid var(--border);
+  padding:60px 40px 30px;margin-top:auto;
+}
+.footer-grid{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;
+  max-width:1100px;margin:0 auto 40px;
+}
+@media(max-width:800px){.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:500px){.footer-grid{grid-template-columns:1fr}}
+.footer-brand{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.footer-desc{font-size:13px;color:var(--text-dim);line-height:1.8;max-width:280px;margin-bottom:20px}
+.footer-col-title{
+  font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--cyan);margin-bottom:16px;
+}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:8px}
+.footer-links a{font-size:13px;color:var(--text-dim);transition:color 0.2s}
+.footer-links a:hover{color:var(--blue-bright)}
+.footer-bottom{
+  border-top:1px solid var(--border);padding-top:24px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  max-width:1100px;margin:0 auto;
+  font-size:12px;color:var(--text-dim);
+}
+.footer-bottom .acm-logo-mini{
+  font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:2px;
+  color:var(--blue-bright);
+}
+
+/* ═══════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════ */
+.toast{
+  position:fixed;bottom:30px;right:30px;z-index:9999;
+  padding:14px 24px;
+  background:linear-gradient(135deg,var(--bg3),rgba(15,143,255,0.15));
+  border:1px solid var(--border-bright);border-radius:10px;
+  color:var(--white);font-size:13px;font-weight:500;
+  box-shadow:0 8px 30px rgba(0,0,0,0.3);
+  animation:toastIn 0.4s ease,toastOut 0.4s ease 2.8s forwards;
+  display:flex;align-items:center;gap:8px;
+}
+@keyframes toastIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes toastOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(20px)}}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE NAV
+═══════════════════════════════════════════ */
+@media(max-width:880px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+}
+@media(max-width:600px){
+  .navbar{padding:0 20px}
+  .hero{padding:40px 20px 30px}
+  .hero-cta{flex-direction:column;align-items:center}
+}
+
+/* ═══════════════════════════════════════════
+   PROGRESS BARS
+═══════════════════════════════════════════ */
+.progress-bar{
+  height:6px;background:rgba(15,143,255,0.12);border-radius:3px;overflow:hidden;
+}
+.progress-fill{
+  height:100%;border-radius:3px;
+  background:linear-gradient(90deg,var(--blue-core),var(--cyan));
+  transition:width 1.5s cubic-bezier(0.16,1,0.3,1);
+}
+
+/* ═══════════════════════════════════════════
+   PAGE TRANSITION
+═══════════════════════════════════════════ */
+.page{animation:pageIn 0.4s ease}
+@keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══════════════════════════════════════════
+   SECTION-LEVEL BG VARIANTS
+═══════════════════════════════════════════ */
+.bg-alt{background:linear-gradient(180deg,var(--bg),var(--bg2))}
+.bg-alt2{background:linear-gradient(180deg,var(--bg2),var(--bg))}
+</style>
+</head>
+<body>
+
+<canvas id="stars-canvas"></canvas>
+
+<!-- ═══════════════ NAVBAR ═══════════════ -->
+<nav class="navbar" id="navbar">
+  <div class="nav-logo" onclick="navigateTo('home')">
+    <div class="nav-logo-icon">ACM</div>
+    <span class="nav-logo-text">VJIT</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#" onclick="navigateTo('home')" data-page="home">Home</a></li>
+    <li><a href="#" onclick="navigateTo('about')" data-page="about">About</a></li>
+    <li><a href="#" onclick="navigateTo('team')" data-page="team">Team</a></li>
+    <li><a href="#" onclick="navigateTo('events')" data-page="events">Events</a></li>
+    <li><a href="#" onclick="navigateTo('projects')" data-page="projects">Projects</a></li>
+    <li><a href="#" onclick="navigateTo('blog')" data-page="blog">Blog</a></li>
+    <li><a href="#" onclick="navigateTo('gallery')" data-page="gallery">Gallery</a></li>
+    <li><a href="#" onclick="navigateTo('contact')" data-page="contact">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="btn-theme" onclick="toggleTheme()" title="Toggle theme" id="theme-btn">🌙</button>
+    <button class="btn-join-nav" onclick="navigateTo('join')">Join ACM</button>
+    <button class="hamburger" onclick="openMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="closeMenu()">✕</button>
+  <a href="#" onclick="navigateTo('home');closeMenu()">Home</a>
+  <a href="#" onclick="navigateTo('about');closeMenu()">About</a>
+  <a href="#" onclick="navigateTo('team');closeMenu()">Team</a>
+  <a href="#" onclick="navigateTo('events');closeMenu()">Events</a>
+  <a href="#" onclick="navigateTo('projects');closeMenu()">Projects</a>
+  <a href="#" onclick="navigateTo('blog');closeMenu()">Blog</a>
+  <a href="#" onclick="navigateTo('gallery');closeMenu()">Gallery</a>
+  <a href="#" onclick="navigateTo('dashboard');closeMenu()">Dashboard</a>
+  <a href="#" onclick="navigateTo('join');closeMenu()">Join ACM</a>
+  <a href="#" onclick="navigateTo('contact');closeMenu()">Contact</a>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: HOME
+════════════════════════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-content">
+      <p class="hero-tagline">Association for Computing Machinery · VJIT Student Chapter</p>
+
+      <!-- ACM Logo SVG (inline, scaled) -->
+      <div class="hero-logo-wrap">
+        <svg class="hero-logo-svg" viewBox="0 0 540 210" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="hg1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#0f8fff"/>
+              <stop offset="50%" stop-color="#40c4ff"/>
+              <stop offset="100%" stop-color="#0050b3"/>
+            </linearGradient>
+            <linearGradient id="hg2" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#40c4ff"/>
+              <stop offset="100%" stop-color="#00e5ff"/>
+            </linearGradient>
+            <linearGradient id="hgL" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#e8f4ff"/>
+              <stop offset="100%" stop-color="#40c4ff"/>
+            </linearGradient>
+            <linearGradient id="hgS" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#0f8fff" stop-opacity="0.2"/>
+            </linearGradient>
+            <filter id="hfGlow" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="5" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="hfLetterGlow" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <style>
+              .hr-spin{animation:spinRing 18s linear infinite;transform-origin:center;transform-box:fill-box}
+              .hr-spinR{animation:spinRingR 14s linear infinite;transform-origin:center;transform-box:fill-box}
+              .hr-ring{stroke-dasharray:465;fill:none;stroke:url(#hg1);stroke-width:7.5;filter:url(#hfGlow)}
+              @keyframes spinRing{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+              @keyframes spinRingR{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
+            </style>
+          </defs>
+          <g class="hr-spin"><circle cx="108" cy="98" r="82" fill="none" stroke="url(#hgS)" stroke-width="1" stroke-dasharray="8 14" opacity="0.5"/></g>
+          <g class="hr-spinR"><circle cx="270" cy="98" r="82" fill="none" stroke="url(#hgS)" stroke-width="1" stroke-dasharray="8 14" opacity="0.5"/></g>
+          <g class="hr-spin"><circle cx="432" cy="98" r="82" fill="none" stroke="url(#hgS)" stroke-width="1" stroke-dasharray="8 14" opacity="0.5"/></g>
+          <circle class="hr-ring" cx="108" cy="98" r="74"/>
+          <circle class="hr-ring" cx="270" cy="98" r="74"/>
+          <circle class="hr-ring" cx="432" cy="98" r="74"/>
+          <circle cx="108" cy="98" r="67" fill="none" stroke="rgba(64,196,255,0.15)" stroke-width="1"/>
+          <circle cx="270" cy="98" r="67" fill="none" stroke="rgba(64,196,255,0.15)" stroke-width="1"/>
+          <circle cx="432" cy="98" r="67" fill="none" stroke="rgba(64,196,255,0.15)" stroke-width="1"/>
+          <text x="108" y="122" text-anchor="middle" font-family="Orbitron,sans-serif" font-weight="900" font-size="72" fill="url(#hgL)" filter="url(#hfLetterGlow)">A</text>
+          <text x="270" y="122" text-anchor="middle" font-family="Orbitron,sans-serif" font-weight="900" font-size="72" fill="url(#hgL)" filter="url(#hfLetterGlow)">C</text>
+          <text x="432" y="122" text-anchor="middle" font-family="Orbitron,sans-serif" font-weight="900" font-size="72" fill="url(#hgL)" filter="url(#hfLetterGlow)">M</text>
+          <circle cx="183" cy="98" r="4" fill="#00e5ff" opacity="0.8" filter="url(#hfGlow)"/>
+          <circle cx="357" cy="98" r="4" fill="#00e5ff" opacity="0.8" filter="url(#hfGlow)"/>
+          <line x1="60" y1="190" x2="480" y2="190" stroke="rgba(15,143,255,0.15)" stroke-width="1"/>
+        </svg>
+      </div>
+
+      <h1 class="hero-title">
+        Empowering the <span class="accent">Next Generation</span><br>of Computing Innovators
+      </h1>
+      <p class="hero-sub">
+        ACM VJIT is a student-led technical community dedicated to advancing knowledge in computing, fostering innovation, and building bridges between academia and industry.
+      </p>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="navigateTo('join')">⚡ Join ACM Today</button>
+        <button class="btn-outline" onclick="navigateTo('events')">🗓 Explore Events</button>
+      </div>
+
+      <!-- Stats band -->
+      <div class="stats-band">
+        <div class="stat-item">
+          <span class="stat-num" data-target="340">0</span>
+          <span class="stat-label">Members</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num" data-target="48">0</span>
+          <span class="stat-label">Workshops</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num" data-target="62">0</span>
+          <span class="stat-label">Events</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num" data-target="29">0</span>
+          <span class="stat-label">Projects</span>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- Features strip -->
+  <div class="features-strip">
+    <div class="features-strip-inner">
+      <div class="feat-card">
+        <div class="feat-icon">🧠</div>
+        <div>
+          <div class="feat-title">Technical Workshops</div>
+          <div class="feat-desc">Hands-on sessions on AI/ML, web development, cloud computing, and competitive programming led by industry experts.</div>
+        </div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🏆</div>
+        <div>
+          <div class="feat-title">Hackathons & Competitions</div>
+          <div class="feat-desc">Participate in national-level hackathons, coding contests, and innovation challenges to win prizes and recognition.</div>
+        </div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🌐</div>
+        <div>
+          <div class="feat-title">Industry Networking</div>
+          <div class="feat-desc">Connect with alumni, industry professionals, and ACM members worldwide. Build your professional network early.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upcoming Event Highlight -->
+  <div class="bg-alt">
+    <div class="section">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:32px">
+        <div>
+          <span class="section-tag">⚡ Upcoming</span>
+          <h2 class="section-title">Don't Miss <span>These Events</span></h2>
+        </div>
+        <button class="btn-outline" onclick="navigateTo('events')" style="font-size:12px;padding:10px 22px">View All Events →</button>
+      </div>
+      <div class="grid-3">
+        <div class="event-card">
+          <div class="event-poster" style="background:linear-gradient(135deg,#071428,rgba(15,143,255,0.2))">🤖</div>
+          <div class="event-body">
+            <div class="event-meta"><span>📅 Apr 12, 2025</span><span>🕑 2:00 PM</span></div>
+            <div class="event-title">AI & Machine Learning Bootcamp</div>
+            <div class="event-desc">Deep dive into neural networks, model training, and real-world AI applications.</div>
+            <span class="badge badge-green">Upcoming</span>
+          </div>
+        </div>
+        <div class="event-card">
+          <div class="event-poster" style="background:linear-gradient(135deg,#071428,rgba(0,229,255,0.15))">⚡</div>
+          <div class="event-body">
+            <div class="event-meta"><span>📅 Apr 26–27, 2025</span><span>🕑 9:00 AM</span></div>
+            <div class="event-title">HackFest 2025 — 24hr Hackathon</div>
+            <div class="event-desc">Build innovative solutions in 24 hours. Prizes worth ₹1,50,000!</div>
+            <span class="badge badge-orange">Registration Open</span>
+          </div>
+        </div>
+        <div class="event-card">
+          <div class="event-poster" style="background:linear-gradient(135deg,#071428,rgba(100,50,255,0.15))">☁️</div>
+          <div class="event-body">
+            <div class="event-meta"><span>📅 May 5, 2025</span><span>🕑 3:00 PM</span></div>
+            <div class="event-title">Cloud Computing Summit</div>
+            <div class="event-desc">AWS, Azure, and GCP — industry experts share cloud architecture insights.</div>
+            <span class="badge badge-blue">Free Entry</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Achievement Wall Preview -->
+  <div class="achievement-wall-section">
+    <div class="achievement-header">
+      <span class="section-tag">🏅 Milestones</span>
+      <h2 class="section-title">Our <span>Achievement Wall</span></h2>
+      <p class="section-desc" style="margin:0 auto;text-align:center">Celebrating the wins that define our chapter's excellence</p>
+    </div>
+    <div class="ach-grid">
+      <div class="ach-card">
+        <span class="ach-trophy">🥇</span>
+        <div class="ach-year">2024</div>
+        <div class="ach-title">Best Student Chapter Award</div>
+        <div class="ach-desc">Awarded by ACM India for outstanding contribution to computing education</div>
+        <span class="ach-badge-gold">Gold Award</span>
+      </div>
+      <div class="ach-card">
+        <span class="ach-trophy">🏆</span>
+        <div class="ach-year">2024</div>
+        <div class="ach-title">Smart India Hackathon Finalists</div>
+        <div class="ach-desc">Team ByteForce reached national finals with an AI-based healthcare solution</div>
+        <span class="ach-badge-gold">National Level</span>
+      </div>
+      <div class="ach-card">
+        <span class="ach-trophy">⭐</span>
+        <div class="ach-year">2023</div>
+        <div class="ach-title">500+ Member Milestone</div>
+        <div class="ach-desc">Became the fastest-growing ACM chapter in Telangana region</div>
+        <span class="ach-badge-gold">Record Breaking</span>
+      </div>
+      <div class="ach-card">
+        <span class="ach-trophy">🎯</span>
+        <div class="ach-year">2023</div>
+        <div class="ach-title">ACM ICPC Hyderabad Regionals</div>
+        <div class="ach-desc">Two teams qualified for the regional round of the prestigious programming contest</div>
+        <span class="ach-badge-gold">Qualified</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Community teaser -->
+  <div class="bg-alt2">
+    <div class="section" style="text-align:center">
+      <span class="section-tag">💬 Community</span>
+      <h2 class="section-title">Join the <span>Conversation</span></h2>
+      <p class="section-desc" style="margin:0 auto 32px;text-align:center">Discuss ideas, ask tech questions, share resources, and collaborate with fellow ACM members.</p>
+      <button class="btn-primary" onclick="navigateTo('community')">🚀 Open Community Hub</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <div class="nav-logo-icon">ACM</div>
+          <span style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:14px;letter-spacing:3px;color:var(--white)">VJIT</span>
+        </div>
+        <p class="footer-desc">ACM VJIT Student Chapter — Empowering the next generation of computing professionals in Hyderabad.</p>
+        <div class="social-links">
+          <a class="social-link" href="#" title="LinkedIn">in</a>
+          <a class="social-link" href="#" title="GitHub">⌥</a>
+          <a class="social-link" href="#" title="Twitter">𝕏</a>
+          <a class="social-link" href="#" title="Instagram">◈</a>
+          <a class="social-link" href="#" title="Discord">◎</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Navigate</div>
+        <ul class="footer-links">
+          <li><a href="#" onclick="navigateTo('about')">About Us</a></li>
+          <li><a href="#" onclick="navigateTo('team')">Our Team</a></li>
+          <li><a href="#" onclick="navigateTo('events')">Events</a></li>
+          <li><a href="#" onclick="navigateTo('projects')">Projects</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Resources</div>
+        <ul class="footer-links">
+          <li><a href="#" onclick="navigateTo('blog')">Blog & Articles</a></li>
+          <li><a href="#" onclick="navigateTo('gallery')">Gallery</a></li>
+          <li><a href="#" onclick="navigateTo('community')">Community</a></li>
+          <li><a href="#" onclick="navigateTo('dashboard')">Dashboard</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Connect</div>
+        <ul class="footer-links">
+          <li><a href="#" onclick="navigateTo('join')">Join ACM</a></li>
+          <li><a href="#" onclick="navigateTo('contact')">Contact Us</a></li>
+          <li><a href="#">ACM Global</a></li>
+          <li><a href="#">ACM India</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 ACM VJIT Student Chapter. All rights reserved.</span>
+      <span class="acm-logo-mini">ACM · VJIT · HYDERABAD</span>
+    </div>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: ABOUT
+════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-about">
+  <div class="about-hero">
+    <span class="section-tag">Who We Are</span>
+    <h1 class="section-title">About <span>ACM VJIT</span></h1>
+    <p class="section-desc" style="margin:0 auto;max-width:700px">
+      The ACM VJIT Student Chapter is a vibrant community of computing enthusiasts at Vignana Jyothi Institute of Technology, Hyderabad. We are the official student chapter of the Association for Computing Machinery — the world's largest scientific and educational computing society.
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="grid-2" style="align-items:center;gap:60px">
+      <div>
+        <span class="section-tag">Our Story</span>
+        <h2 class="section-title">Building Tomorrow's <span>Tech Leaders</span></h2>
+        <p style="font-size:14px;color:var(--text-dim);line-height:1.9;margin-bottom:16px">
+          Founded in 2018, ACM VJIT began as a small group of passionate students who wanted to bridge the gap between classroom learning and real-world technology. Today, we are a thriving community of 340+ members spanning all branches of engineering.
+        </p>
+        <p style="font-size:14px;color:var(--text-dim);line-height:1.9;margin-bottom:28px">
+          We host workshops, hackathons, seminars, and mentorship programs that equip students with the skills needed to excel in the technology industry. Our members have gone on to work at leading tech companies including Google, Microsoft, Amazon, and innovative startups.
+        </p>
+        <div style="display:flex;gap:24px;flex-wrap:wrap">
+          <div style="text-align:center">
+            <div style="font-family:'Orbitron',sans-serif;font-size:28px;font-weight:900;color:var(--blue-bright)">7+</div>
+            <div style="font-size:11px;color:var(--text-dim);letter-spacing:1.5px;text-transform:uppercase">Years Active</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-family:'Orbitron',sans-serif;font-size:28px;font-weight:900;color:var(--cyan)">15+</div>
+            <div style="font-size:11px;color:var(--text-dim);letter-spacing:1.5px;text-transform:uppercase">Industry Partners</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-family:'Orbitron',sans-serif;font-size:28px;font-weight:900;color:var(--blue-bright)">200+</div>
+            <div style="font-size:11px;color:var(--text-dim);letter-spacing:1.5px;text-transform:uppercase">Alumni Network</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px;position:relative;overflow:hidden">
+          <div style="position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(ellipse,rgba(15,143,255,0.1),transparent);pointer-events:none"></div>
+          <div style="font-family:'Orbitron',sans-serif;font-size:13px;letter-spacing:2px;color:var(--cyan);margin-bottom:20px">CHAPTER FACTS</div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px solid var(--border)">
+              <span style="font-size:13px;color:var(--text-dim)">Founded</span>
+              <span style="font-weight:600;color:var(--white)">October 2018</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px solid var(--border)">
+              <span style="font-size:13px;color:var(--text-dim)">College</span>
+              <span style="font-weight:600;color:var(--white)">VJIT, Hyderabad</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px solid var(--border)">
+              <span style="font-size:13px;color:var(--text-dim)">Parent Body</span>
+              <span style="font-weight:600;color:var(--white)">ACM India</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px solid var(--border)">
+              <span style="font-size:13px;color:var(--text-dim)">Region</span>
+              <span style="font-weight:600;color:var(--white)">Telangana</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:13px;color:var(--text-dim)">Active Members</span>
+              <span style="font-weight:600;color:var(--cyan)">340+</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider" style="max-width:1100px"></div>
+
+  <!-- Mission Vision Goals -->
+  <div class="section">
+    <div style="text-align:center;margin-bottom:8px">
+      <span class="section-tag">Our Purpose</span>
+      <h2 class="section-title">Mission, Vision & <span>Goals</span></h2>
+    </div>
+    <div class="mission-grid">
+      <div class="mission-card">
+        <span class="mission-icon">🎯</span>
+        <span class="mission-label">Mission</span>
+        <p class="mission-text">To create a dynamic learning environment that empowers students with technical skills, research exposure, and professional development to excel in the global computing community.</p>
+      </div>
+      <div class="mission-card">
+        <span class="mission-icon">🔭</span>
+        <span class="mission-label">Vision</span>
+        <p class="mission-text">To become the most impactful student computing chapter in South India — a hub where innovation meets education and students transform ideas into world-class solutions.</p>
+      </div>
+      <div class="mission-card">
+        <span class="mission-icon">🚀</span>
+        <span class="mission-label">Goals</span>
+        <p class="mission-text">Host 50+ technical events annually, develop 100+ industry-ready graduates, establish research collaborations, and mentor the next wave of computing entrepreneurs.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider" style="max-width:1100px"></div>
+
+  <!-- Timeline -->
+  <div class="section">
+    <div style="text-align:center;margin-bottom:40px">
+      <span class="section-tag">Our Journey</span>
+      <h2 class="section-title">Chapter <span>Timeline</span></h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-side">
+          <div class="tl-year">2018</div>
+          <div class="tl-title">Chapter Founded</div>
+          <div class="tl-desc">ACM VJIT Student Chapter established with 45 founding members and Dr. Priya Sharma as Faculty Coordinator.</div>
+        </div>
+        <div class="tl-dot"></div>
+        <div class="tl-side"></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-side"></div>
+        <div class="tl-dot"></div>
+        <div class="tl-side">
+          <div class="tl-year">2019</div>
+          <div class="tl-title">First HackFest</div>
+          <div class="tl-desc">Organized the inaugural 24-hour hackathon with 200+ participants and ₹50,000 in prizes.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-side">
+          <div class="tl-year">2020</div>
+          <div class="tl-title">Digital Pivot</div>
+          <div class="tl-desc">Launched online workshops during COVID-19, reaching 1,000+ students across Telangana with virtual events.</div>
+        </div>
+        <div class="tl-dot"></div>
+        <div class="tl-side"></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-side"></div>
+        <div class="tl-dot"></div>
+        <div class="tl-side">
+          <div class="tl-year">2021</div>
+          <div class="tl-title">ACM India Recognition</div>
+          <div class="tl-desc">Received "Rising Chapter Award" from ACM India Council for excellence in student engagement and technical activities.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-side">
+          <div class="tl-year">2022</div>
+          <div class="tl-title">Research Wing Launched</div>
+          <div class="tl-desc">Established a student research group with 3 papers accepted at national-level conferences.</div>
+        </div>
+        <div class="tl-dot"></div>
+        <div class="tl-side"></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-side"></div>
+        <div class="tl-dot"></div>
+        <div class="tl-side">
+          <div class="tl-year">2023</div>
+          <div class="tl-title">500 Members Milestone</div>
+          <div class="tl-desc">Became the fastest-growing ACM chapter in Telangana, crossing 500 registered members.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-side">
+          <div class="tl-year">2024</div>
+          <div class="tl-title">Best Chapter Award</div>
+          <div class="tl-desc">Won the prestigious Best Student Chapter Award from ACM India for the second consecutive year.</div>
+        </div>
+        <div class="tl-dot"></div>
+        <div class="tl-side"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-bottom" style="max-width:100%;padding:24px 40px">
+      <span>© 2025 ACM VJIT Student Chapter</span>
+      <button class="btn-primary" onclick="navigateTo('join')" style="font-size:12px;padding:10px 22px">Join Us →</button>
+    </div>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: TEAM
+════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-team">
+  <div class="team-hero">
+    <span class="section-tag">The People</span>
+    <h1 class="section-title">Meet the <span>Team</span></h1>
+    <p class="section-desc" style="margin:0 auto">The dedicated minds driving ACM VJIT's mission forward</p>
+  </div>
+  <div class="section">
+    <div style="margin-bottom:16px">
+      <span class="section-tag">Leadership</span>
+      <h2 class="section-title">Faculty <span>Coordinator</span></h2>
+    </div>
+    <div style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap">
+      <div class="team-card" style="width:220px">
+        <div class="team-avatar" style="font-size:60px">👩‍🏫</div>
+        <div class="team-info">
+          <div class="team-name">Dr. Priya Sharma</div>
+          <div class="team-role">Faculty Coordinator</div>
+          <div style="font-size:12px;color:var(--text-dim);margin-bottom:10px">Professor, CSE Dept.</div>
+          <div class="team-links">
+            <a class="team-link" href="#" title="LinkedIn">in</a>
+            <a class="team-link" href="#" title="Email">✉</a>
+          </div>
+        </div>
+      </div>
+      <div style="flex:1;min-width:280px;padding:20px 0">
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.9;margin-bottom:16px">
+          Dr. Priya Sharma is a Professor in the Department of Computer Science and Engineering with over 15 years of teaching and research experience. Her research interests include Machine Learning, Data Mining, and Distributed Systems.
+        </div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.9">
+          As the Faculty Coordinator, she guides the ACM VJIT chapter in academic and professional activities, mentors students in research, and facilitates industry-academia collaborations. She has been associated with ACM since 2015 as a Senior Member.
+        </div>
+      </div>
+    </div>
+
+    <div style="margin:48px 0 16px">
+      <span class="section-tag">Core Team</span>
+      <h2 class="section-title">Student <span>Leadership</span></h2>
+    </div>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar">👨‍💻</div>
+        <div class="team-info">
+          <div class="team-name">Arjun Reddy</div>
+          <div class="team-role">President</div>
+          <div class="team-links">
+            <a class="team-link" href="#" title="LinkedIn">in</a>
+            <a class="team-link" href="#" title="GitHub">⌥</a>
+          </div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">👩‍💻</div>
+        <div class="team-info">
+          <div class="team-name">Kavya Nair</div>
+          <div class="team-role">Vice President</div>
+          <div class="team-links">
+            <a class="team-link" href="#" title="LinkedIn">in</a>
+            <a class="team-link" href="#" title="GitHub">⌥</a>
+          </div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">🧑‍💻</div>
+        <div class="team-info">
+          <div class="team-name">Ravi Kumar</div>
+          <div class="team-role">Technical Lead</div>
+          <div class="team-links">
+            <a class="team-link" href="#" title="LinkedIn">in</a>
+            <a class="team-link" href="#" title="GitHub">⌥</a>
+          </div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">👩‍🎨</div>
+        <div class="team-info">
+          <div class="team-name">Sneha Rao</div>
+          <div class="team-role">Design Lead</div>
+          <div class="team-links">
+            <a class="team-link" href="#" title="LinkedIn">in</a>
+            <a class="team-link" href="#" title="GitHub">⌥</a>
+          </div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">👨‍🔬</div>
+        <div class="team-info">
+          <div class="team-name">Vikram Patel</div>
+          <div class="team-role">Research Lead</div>
+          <div class="team-links">
+            <a class="team-link" href="#" title="LinkedIn">in</a>
+            <a class="team-link" href="#" title="GitHub">⌥</a>
+          </div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">👩‍🏫</div>
+        <div class="team-info">
+          <div class="team-name">Ananya Singh</div>
+          <div class="team-role">Events Coordinator</div>
+          <div class="team-links">
+            <a class="team-link" href="#" title="LinkedIn">in</a>
+            <a class="team-link" href="#" title="GitHub">⌥</a>
+          </div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">🧑‍🎤</div>
+        <div class="team-info">
+          <div class="team-name">Nikhil Verma</div>
+          <div class="team-role">Outreach Lead</div>
+          <div class="team-links">
+            <a class="team-link" href="#" title="LinkedIn">in</a>
+            <a class="team-link" href="#" title="GitHub">⌥</a>
+          </div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">👩‍💼</div>
+        <div class="team-info">
+          <div class="team-name">Pooja Menon</div>
+          <div class="team-role">Secretary</div>
+          <div class="team-links">
+            <a class="team-link" href="#" title="LinkedIn">in</a>
+            <a class="team-link" href="#" title="GitHub">⌥</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin:48px 0 16px">
+      <span class="section-tag">Domain Leads</span>
+      <h2 class="section-title">Technical <span>Domain Leads</span></h2>
+    </div>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar" style="font-size:36px">🤖</div>
+        <div class="team-info">
+          <div class="team-name">Aditya Rao</div>
+          <div class="team-role">AI/ML Lead</div>
+          <div class="team-links"><a class="team-link" href="#">in</a><a class="team-link" href="#">⌥</a></div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar" style="font-size:36px">🌐</div>
+        <div class="team-info">
+          <div class="team-name">Preethi Nair</div>
+          <div class="team-role">Web Dev Lead</div>
+          <div class="team-links"><a class="team-link" href="#">in</a><a class="team-link" href="#">⌥</a></div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar" style="font-size:36px">☁️</div>
+        <div class="team-info">
+          <div class="team-name">Suresh Kumar</div>
+          <div class="team-role">Cloud Lead</div>
+          <div class="team-links"><a class="team-link" href="#">in</a><a class="team-link" href="#">⌥</a></div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar" style="font-size:36px">🔐</div>
+        <div class="team-info">
+          <div class="team-name">Rahul Pillai</div>
+          <div class="team-role">CyberSec Lead</div>
+          <div class="team-links"><a class="team-link" href="#">in</a><a class="team-link" href="#">⌥</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: EVENTS
+════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-events">
+  <div class="events-hero">
+    <span class="section-tag">What's Happening</span>
+    <h1 class="section-title">Events & <span>Activities</span></h1>
+    <p class="section-desc" style="margin:0 auto">Workshops, hackathons, seminars, and more — stay in the loop</p>
+  </div>
+  <div class="section">
+    <!-- Countdown Timer -->
+    <div class="countdown-section">
+      <div class="countdown-label">⚡ Next Event Countdown</div>
+      <div class="countdown-event-name">HackFest 2025 — 24-Hour Hackathon</div>
+      <div class="countdown-grid">
+        <div class="cd-unit"><span class="cd-num" id="cd-days">00</span><div class="cd-label">Days</div></div>
+        <div class="cd-unit"><span class="cd-num" id="cd-hrs">00</span><div class="cd-label">Hours</div></div>
+        <div class="cd-unit"><span class="cd-num" id="cd-min">00</span><div class="cd-label">Minutes</div></div>
+        <div class="cd-unit"><span class="cd-num" id="cd-sec">00</span><div class="cd-label">Seconds</div></div>
+      </div>
+      <div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <button class="btn-primary" style="font-size:13px;padding:12px 28px" onclick="showToast('🎉 Registration link will open soon!')">Register Now</button>
+        <button class="btn-outline" style="font-size:13px;padding:11px 24px" onclick="showToast('📋 Event brochure downloaded!')">Download Brochure</button>
+      </div>
+    </div>
+
+    <!-- Event Tabs -->
+    <div class="events-tabs">
+      <button class="events-tab active" onclick="switchTab(this,'upcoming')">Upcoming Events</button>
+      <button class="events-tab" onclick="switchTab(this,'past')">Past Events</button>
+    </div>
+
+    <!-- Upcoming Events -->
+    <div id="tab-upcoming">
+      <div class="grid-3">
+        <div class="event-card">
+          <div class="event-poster" style="background:linear-gradient(135deg,#051020,rgba(15,143,255,0.3))">🤖</div>
+          <div class="event-body">
+            <span class="badge badge-green" style="margin-bottom:10px">Upcoming</span>
+            <div class="event-title">AI & Machine Learning Bootcamp</div>
+            <div class="event-meta">
+              <span>📅 Apr 12, 2025</span><span>🕑 2:00 PM</span><span>📍 Seminar Hall</span>
+            </div>
+            <div class="event-desc">Three-day intensive bootcamp covering neural networks, PyTorch, and deploying AI models in production. Limited seats available.</div>
+          </div>
+          <div class="event-footer">
+            <span class="badge badge-blue">Free for ACM Members</span>
+            <button class="btn-primary" style="font-size:11px;padding:8px 16px" onclick="showToast('✅ Registration successful!')">Register</button>
+          </div>
+        </div>
+        <div class="event-card">
+          <div class="event-poster" style="background:linear-gradient(135deg,#051020,rgba(255,100,0,0.3))">⚡</div>
+          <div class="event-body">
+            <span class="badge badge-orange" style="margin-bottom:10px">Open Registration</span>
+            <div class="event-title">HackFest 2025</div>
+            <div class="event-meta">
+              <span>📅 Apr 26–27, 2025</span><span>🕑 9:00 AM</span><span>📍 VJIT Campus</span>
+            </div>
+            <div class="event-desc">24-hour hackathon with 4 problem domains: Healthcare, EdTech, FinTech, and Sustainability. Prizes worth ₹1,50,000!</div>
+          </div>
+          <div class="event-footer">
+            <span class="badge badge-orange">₹200 per team</span>
+            <button class="btn-primary" style="font-size:11px;padding:8px 16px" onclick="showToast('✅ Team registered!')">Register Team</button>
+          </div>
+        </div>
+        <div class="event-card">
+          <div class="event-poster" style="background:linear-gradient(135deg,#051020,rgba(0,180,255,0.2))">☁️</div>
+          <div class="event-body">
+            <span class="badge badge-blue" style="margin-bottom:10px">Free Entry</span>
+            <div class="event-title">Cloud Computing Summit</div>
+            <div class="event-meta">
+              <span>📅 May 5, 2025</span><span>🕑 3:00 PM</span><span>📍 Online + Offline</span>
+            </div>
+            <div class="event-desc">Industry leaders from AWS, Azure, and Google Cloud share insights on cloud architecture, DevOps, and serverless computing.</div>
+          </div>
+          <div class="event-footer">
+            <span class="badge badge-blue">Certificate Provided</span>
+            <button class="btn-primary" style="font-size:11px;padding:8px 16px" onclick="showToast('✅ Registered for Summit!')">RSVP</button>
+          </div>
+        </div>
+        <div class="event-card">
+          <div class="event-poster" style="background:linear-gradient(135deg,#051020,rgba(100,255,100,0.15))">🔐</div>
+          <div class="event-body">
+            <span class="badge badge-cyan" style="margin-bottom:10px">Coming Soon</span>
+            <div class="event-title">CyberSec CTF Challenge</div>
+            <div class="event-meta">
+              <span>📅 May 18, 2025</span><span>🕑 10:00 AM</span><span>📍 Lab Block</span>
+            </div>
+            <div class="event-desc">Capture the Flag competition covering web security, cryptography, forensics, and reverse engineering challenges.</div>
+          </div>
+          <div class="event-footer">
+            <span class="badge badge-cyan">Individual & Teams</span>
+            <button class="btn-outline" style="font-size:11px;padding:7px 16px" onclick="showToast('🔔 You\'ll be notified when registration opens!')">Notify Me</button>
+          </div>
+        </div>
+        <div class="event-card">
+          <div class="event-poster" style="background:linear-gradient(135deg,#051020,rgba(200,0,255,0.15))">📊</div>
+          <div class="event-body">
+            <span class="badge badge-cyan" style="margin-bottom:10px">Coming Soon</span>
+            <div class="event-title">Data Science Workshop</div>
+            <div class="event-meta">
+              <span>📅 Jun 2, 2025</span><span>🕑 10:00 AM</span><span>📍 Seminar Hall</span>
+            </div>
+            <div class="event-desc">Pandas, NumPy, Matplotlib, and Scikit-learn — a complete beginner-to-intermediate data science workshop with hands-on labs.</div>
+          </div>
+          <div class="event-footer">
+            <span class="badge badge-blue">Free for Members</span>
+            <button class="btn-outline" style="font-size:11px;padding:7px 16px" onclick="showToast('🔔 You\'ll be notified!')">Notify Me</button>
+          </div>
+        </div>
+        <div class="event-card">
+          <div class="event-poster" style="background:linear-gradient(135deg,#051020,rgba(255,200,0,0.15))">🎤</div>
+          <div class="event-body">
+            <span class="badge badge-green" style="margin-bottom:10px">Upcoming</span>
+            <div class="event-title">Tech Talk: Future of AI</div>
+            <div class="event-meta">
+              <span>📅 Jun 15, 2025</span><span>🕑 4:00 PM</span><span>📍 Auditorium</span>
+            </div>
+            <div class="event-desc">Distinguished lecture by a Google DeepMind researcher on the current state and future directions of artificial intelligence.</div>
+          </div>
+          <div class="event-footer">
+            <span class="badge badge-green">Open to All</span>
+            <button class="btn-primary" style="font-size:11px;padding:8px 16px" onclick="showToast('✅ Seat reserved!')">Reserve Seat</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Past Events (hidden by default) -->
+    <div id="tab-past" style="display:none">
+      <div class="grid-3">
+        <div class="event-card">
+          <div class="event-poster" style="background:linear-gradient(135deg,#051020,rgba(15,80,179,0.3))">💻</div>
+          <div class="event-body">
+            <span class="badge" style="background:rgba(100,100,100,0.15);color:#888;border:1px solid rgba(100,100,100,0.3);margin-bottom:10px">Completed</span>
+            <div class="event-title">Web Dev Bootcamp 2024</div>
+            <div class="event-meta"><span>📅 Dec 10–12, 2024</span><span>👥 120 Participants</span></div>
+            <div class="event-desc">Full-stack web development with React, Node.js, and MongoDB. Over 120 students built their first web applications.</div>
+          </div>
+          <div class="event-footer">
+            <span class="badge badge-blue">View Gallery</span>
+            <button class="btn-outline" style="font-size:11px;padding:7px 16px" onclick="navigateTo('gallery')">See Photos</button>
+          </div>
+        </div>
+        <div class="event-card">
+          <div class="event-poster" style="background:linear-gradient(135deg,#051020,rgba(255,100,0,0.2))">🏆</div>
+          <div class="event-body">
+            <span class="badge" style="background:rgba(100,100,100,0.15);color:#888;border:1px solid rgba(100,100,100,0.3);margin-bottom:10px">Completed</span>
+            <div class="event-title">HackFest 2024</div>
+            <div class="event-meta"><span>📅 Nov 15–16, 2024</span><span>👥 86 Teams</span></div>
+            <div class="event-desc">86 teams competed over 24 hours. Team NeuralForge won ₹50,000 first prize with an AI crop disease detection app.</div>
+          </div>
+          <div class="event-footer">
+            <span class="badge badge-blue">View Results</span>
+            <button class="btn-outline" style="font-size:11px;padding:7px 16px" onclick="showToast('📊 Results page loading...')">View Results</button>
+          </div>
+        </div>
+        <div class="event-card">
+          <div class="event-poster" style="background:linear-gradient(135deg,#051020,rgba(0,200,150,0.2))">🔐</div>
+          <div class="event-body">
+            <span class="badge" style="background:rgba(100,100,100,0.15);color:#888;border:1px solid rgba(100,100,100,0.3);margin-bottom:10px">Completed</span>
+            <div class="event-title">Ethical Hacking Workshop</div>
+            <div class="event-meta"><span>📅 Oct 5, 2024</span><span>👥 60 Participants</span></div>
+            <div class="event-desc">Hands-on ethical hacking session covering Kali Linux, penetration testing, and responsible disclosure.</div>
+          </div>
+          <div class="event-footer">
+            <span class="badge badge-blue">Certificate Issued</span>
+            <button class="btn-outline" style="font-size:11px;padding:7px 16px" onclick="showToast('📜 Certificate download initiated!')">Get Certificate</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: PROJECTS
+════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-projects">
+  <div class="projects-hero">
+    <span class="section-tag">Innovation Showcase</span>
+    <h1 class="section-title">Student <span>Projects</span></h1>
+    <p class="section-desc" style="margin:0 auto">Hackathon solutions, research prototypes, and technical innovations built by ACM VJIT members</p>
+  </div>
+  <div class="section">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;justify-content:center">
+      <button class="topic-tag-btn selected" onclick="filterProjects(this,'all')">All Projects</button>
+      <button class="topic-tag-btn" onclick="filterProjects(this,'ai')">AI / ML</button>
+      <button class="topic-tag-btn" onclick="filterProjects(this,'web')">Web Dev</button>
+      <button class="topic-tag-btn" onclick="filterProjects(this,'mobile')">Mobile</button>
+      <button class="topic-tag-btn" onclick="filterProjects(this,'iot')">IoT</button>
+      <button class="topic-tag-btn" onclick="filterProjects(this,'research')">Research</button>
+    </div>
+    <div class="grid-3" id="projects-grid">
+      <div class="project-card" data-cat="ai">
+        <div class="project-thumb">🌾</div>
+        <div class="project-overlay">▶ View Project</div>
+        <div class="project-body">
+          <span class="badge badge-green" style="margin-bottom:8px">🏆 Hackathon Winner</span>
+          <div class="project-title">AgriSense — AI Crop Disease Detector</div>
+          <div class="project-tags">
+            <span class="project-tag">Python</span>
+            <span class="project-tag">TensorFlow</span>
+            <span class="project-tag">FastAPI</span>
+            <span class="project-tag">React</span>
+          </div>
+          <div class="project-desc">CNN-based model achieving 94% accuracy in identifying 26 types of crop diseases from leaf images. Won ₹50,000 at HackFest 2024.</div>
+          <div style="display:flex;gap:10px;margin-top:14px">
+            <a href="#" onclick="showToast('Opening GitHub...')" class="btn-outline" style="font-size:11px;padding:7px 14px">GitHub →</a>
+            <a href="#" onclick="showToast('Opening demo...')" class="btn-primary" style="font-size:11px;padding:7px 14px">Live Demo</a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card" data-cat="web">
+        <div class="project-thumb">🏥</div>
+        <div class="project-overlay">▶ View Project</div>
+        <div class="project-body">
+          <span class="badge badge-blue" style="margin-bottom:8px">Research Project</span>
+          <div class="project-title">MediChain — Blockchain Health Records</div>
+          <div class="project-tags">
+            <span class="project-tag">Solidity</span>
+            <span class="project-tag">Ethereum</span>
+            <span class="project-tag">React</span>
+            <span class="project-tag">IPFS</span>
+          </div>
+          <div class="project-desc">Decentralized patient health record system using blockchain for secure, tamper-proof storage and doctor-patient access control.</div>
+          <div style="display:flex;gap:10px;margin-top:14px">
+            <a href="#" onclick="showToast('Opening GitHub...')" class="btn-outline" style="font-size:11px;padding:7px 14px">GitHub →</a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card" data-cat="iot">
+        <div class="project-thumb">🏙️</div>
+        <div class="project-overlay">▶ View Project</div>
+        <div class="project-body">
+          <span class="badge badge-cyan" style="margin-bottom:8px">IoT Project</span>
+          <div class="project-title">SmartCity Traffic Optimizer</div>
+          <div class="project-tags">
+            <span class="project-tag">Arduino</span>
+            <span class="project-tag">OpenCV</span>
+            <span class="project-tag">Python</span>
+            <span class="project-tag">MQTT</span>
+          </div>
+          <div class="project-desc">Real-time traffic signal optimization using computer vision to reduce congestion by 30% in simulated urban environments.</div>
+          <div style="display:flex;gap:10px;margin-top:14px">
+            <a href="#" onclick="showToast('Opening GitHub...')" class="btn-outline" style="font-size:11px;padding:7px 14px">GitHub →</a>
+            <a href="#" onclick="showToast('Opening video demo...')" class="btn-primary" style="font-size:11px;padding:7px 14px">Watch Demo</a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card" data-cat="mobile">
+        <div class="project-thumb">📚</div>
+        <div class="project-overlay">▶ View Project</div>
+        <div class="project-body">
+          <span class="badge badge-orange" style="margin-bottom:8px">SIH 2024 Finalist</span>
+          <div class="project-title">EduPath — Personalized Learning App</div>
+          <div class="project-tags">
+            <span class="project-tag">Flutter</span>
+            <span class="project-tag">Firebase</span>
+            <span class="project-tag">ML Kit</span>
+          </div>
+          <div class="project-desc">Adaptive learning platform that personalizes course content based on student performance, learning style, and progress analytics.</div>
+          <div style="display:flex;gap:10px;margin-top:14px">
+            <a href="#" onclick="showToast('Opening GitHub...')" class="btn-outline" style="font-size:11px;padding:7px 14px">GitHub →</a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card" data-cat="ai research">
+        <div class="project-thumb">🧠</div>
+        <div class="project-overlay">▶ View Project</div>
+        <div class="project-body">
+          <span class="badge badge-blue" style="margin-bottom:8px">Published Research</span>
+          <div class="project-title">NLP Sentiment Analyzer for Code Reviews</div>
+          <div class="project-tags">
+            <span class="project-tag">BERT</span>
+            <span class="project-tag">HuggingFace</span>
+            <span class="project-tag">Python</span>
+          </div>
+          <div class="project-desc">Fine-tuned BERT model for analyzing sentiment in GitHub code reviews. Paper accepted at NCSC 2024.</div>
+          <div style="display:flex;gap:10px;margin-top:14px">
+            <a href="#" onclick="showToast('Opening paper...')" class="btn-outline" style="font-size:11px;padding:7px 14px">Read Paper →</a>
+            <a href="#" onclick="showToast('Opening GitHub...')" class="btn-primary" style="font-size:11px;padding:7px 14px">Code</a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card" data-cat="web">
+        <div class="project-thumb">♻️</div>
+        <div class="project-overlay">▶ View Project</div>
+        <div class="project-body">
+          <span class="badge badge-green" style="margin-bottom:8px">Active Development</span>
+          <div class="project-title">GreenTrack — Carbon Footprint Calculator</div>
+          <div class="project-tags">
+            <span class="project-tag">Next.js</span>
+            <span class="project-tag">PostgreSQL</span>
+            <span class="project-tag">D3.js</span>
+          </div>
+          <div class="project-desc">Web app helping individuals and organizations track, visualize, and reduce their carbon footprint with AI-powered recommendations.</div>
+          <div style="display:flex;gap:10px;margin-top:14px">
+            <a href="#" onclick="showToast('Opening GitHub...')" class="btn-outline" style="font-size:11px;padding:7px 14px">GitHub →</a>
+            <a href="#" onclick="showToast('Opening demo...')" class="btn-primary" style="font-size:11px;padding:7px 14px">Try It Live</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: BLOG
+════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-blog">
+  <div style="padding:80px 40px 40px;text-align:center;background:linear-gradient(135deg,var(--bg),var(--bg3))">
+    <span class="section-tag">Knowledge Hub</span>
+    <h1 class="section-title">Blog & <span>Resources</span></h1>
+    <p class="section-desc" style="margin:0 auto">Articles, tutorials, and learning materials crafted by ACM VJIT members</p>
+  </div>
+  <div class="section">
+    <div style="margin-bottom:8px"><span class="section-tag">Latest Articles</span><h2 class="section-title">From Our <span>Members</span></h2></div>
+    <div class="grid-3">
+      <div class="blog-card">
+        <div class="blog-header" style="background:linear-gradient(135deg,#051020,rgba(15,143,255,0.2))">🤖</div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="badge badge-blue">AI/ML</span><span class="badge badge-cyan">Tutorial</span></div>
+          <div class="blog-title">Getting Started with Large Language Models: A Practical Guide</div>
+          <div class="blog-excerpt">Explore the fundamentals of LLMs — how they work, how to fine-tune them, and how to build applications using the OpenAI and HuggingFace APIs...</div>
+          <div class="blog-author">
+            <div class="blog-avatar">🧑‍💻</div>
+            <div><div class="blog-author-name">Arjun Reddy</div><div class="blog-date">March 15, 2025 · 8 min read</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-header" style="background:linear-gradient(135deg,#051020,rgba(0,200,150,0.15))">☁️</div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="badge badge-cyan">Cloud</span><span class="badge badge-blue">DevOps</span></div>
+          <div class="blog-title">Kubernetes vs Docker Swarm: Which Container Orchestrator Should You Choose?</div>
+          <div class="blog-excerpt">A detailed comparison of Kubernetes and Docker Swarm for production workloads — performance, scaling, community support, and real-world use cases...</div>
+          <div class="blog-author">
+            <div class="blog-avatar">👨‍💻</div>
+            <div><div class="blog-author-name">Suresh Kumar</div><div class="blog-date">March 10, 2025 · 12 min read</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-header" style="background:linear-gradient(135deg,#051020,rgba(200,100,255,0.15))">🔐</div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="badge badge-orange">Security</span><span class="badge badge-blue">Guide</span></div>
+          <div class="blog-title">Top 10 Web Security Vulnerabilities and How to Prevent Them</div>
+          <div class="blog-excerpt">From SQL injection to XSS and CSRF — understand the OWASP Top 10 vulnerabilities with hands-on examples and code-level fixes...</div>
+          <div class="blog-author">
+            <div class="blog-avatar">🧑‍🔬</div>
+            <div><div class="blog-author-name">Rahul Pillai</div><div class="blog-date">Feb 28, 2025 · 10 min read</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-header" style="background:linear-gradient(135deg,#051020,rgba(255,200,0,0.1))">📊</div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="badge badge-blue">Data Science</span></div>
+          <div class="blog-title">Mastering Pandas: Advanced Data Manipulation Techniques</div>
+          <div class="blog-excerpt">Beyond the basics — GroupBy, MultiIndex, merge strategies, and performance optimization for large datasets in Python...</div>
+          <div class="blog-author">
+            <div class="blog-avatar">👩‍💻</div>
+            <div><div class="blog-author-name">Kavya Nair</div><div class="blog-date">Feb 20, 2025 · 15 min read</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-header" style="background:linear-gradient(135deg,#051020,rgba(0,255,150,0.1))">🌐</div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="badge badge-green">Web Dev</span><span class="badge badge-cyan">React</span></div>
+          <div class="blog-title">Building Production-Ready React Apps with TypeScript and Vite</div>
+          <div class="blog-excerpt">A complete setup guide for scalable React projects — TypeScript configuration, ESLint, Prettier, testing with Vitest, and CI/CD...</div>
+          <div class="blog-author">
+            <div class="blog-avatar">👩‍🎨</div>
+            <div><div class="blog-author-name">Preethi Nair</div><div class="blog-date">Feb 12, 2025 · 9 min read</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-header" style="background:linear-gradient(135deg,#051020,rgba(100,100,255,0.15))">🤖</div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="badge badge-blue">AI/ML</span><span class="badge badge-orange">Research</span></div>
+          <div class="blog-title">Understanding Transformer Architecture: Attention Is All You Need — Explained</div>
+          <div class="blog-excerpt">A visual walkthrough of the seminal paper that revolutionized NLP — from self-attention to multi-head attention and positional encoding...</div>
+          <div class="blog-author">
+            <div class="blog-avatar">🧑‍🔬</div>
+            <div><div class="blog-author-name">Aditya Rao</div><div class="blog-date">Jan 30, 2025 · 20 min read</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin:60px 0 16px"><span class="section-tag">Learning</span><h2 class="section-title">Coding <span>Resources</span></h2></div>
+    <div style="display:flex;flex-direction:column;gap:10px;max-width:800px">
+      <div class="resource-item" onclick="showToast('🔗 Opening resource...')">
+        <div class="resource-icon">💻</div>
+        <div>
+          <div class="resource-title">LeetCode Problem Set — ACM VJIT Curated List</div>
+          <div class="resource-desc">200+ problems handpicked for placement preparation, organized by difficulty and topic</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </div>
+      <div class="resource-item" onclick="showToast('🔗 Opening resource...')">
+        <div class="resource-icon">🤖</div>
+        <div>
+          <div class="resource-title">Machine Learning Roadmap 2025</div>
+          <div class="resource-desc">Complete learning path from linear algebra basics to deploying ML models in production</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </div>
+      <div class="resource-item" onclick="showToast('🔗 Opening resource...')">
+        <div class="resource-icon">☁️</div>
+        <div>
+          <div class="resource-title">AWS Free Tier Projects — Hands-On Lab Guide</div>
+          <div class="resource-desc">10 real-world cloud projects you can build for free on AWS to build your portfolio</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </div>
+      <div class="resource-item" onclick="showToast('🔗 Opening resource...')">
+        <div class="resource-icon">🌐</div>
+        <div>
+          <div class="resource-title">Full-Stack Web Development Starter Kit</div>
+          <div class="resource-desc">Boilerplate repos, cheat sheets, and project ideas for React, Node.js, and PostgreSQL</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </div>
+      <div class="resource-item" onclick="showToast('🔗 Opening resource...')">
+        <div class="resource-icon">📚</div>
+        <div>
+          <div class="resource-title">System Design Interview Preparation Guide</div>
+          <div class="resource-desc">Concepts, patterns, and mock questions for SDE roles at top tech companies</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: GALLERY
+════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-gallery">
+  <div style="padding:80px 40px 40px;text-align:center;background:linear-gradient(135deg,var(--bg),var(--bg3))">
+    <span class="section-tag">Memories</span>
+    <h1 class="section-title">Photo <span>Gallery</span></h1>
+    <p class="section-desc" style="margin:0 auto">Snapshots from our workshops, hackathons, and events</p>
+  </div>
+  <div class="section">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;justify-content:center">
+      <button class="topic-tag-btn selected" onclick="filterGallery(this,'all')">All</button>
+      <button class="topic-tag-btn" onclick="filterGallery(this,'hackathon')">Hackathons</button>
+      <button class="topic-tag-btn" onclick="filterGallery(this,'workshop')">Workshops</button>
+      <button class="topic-tag-btn" onclick="filterGallery(this,'lecture')">Guest Lectures</button>
+      <button class="topic-tag-btn" onclick="filterGallery(this,'team')">Team</button>
+    </div>
+    <div class="gallery-grid" id="gallery-grid">
+      <div class="gallery-item" data-cat="hackathon" style="background:linear-gradient(135deg,#071428,rgba(15,143,255,0.25))"><span>⚡</span><div class="gallery-label">HackFest 2024 — Opening Ceremony</div></div>
+      <div class="gallery-item" data-cat="workshop" style="background:linear-gradient(135deg,#071428,rgba(0,200,100,0.2))"><span>🤖</span><div class="gallery-label">AI/ML Workshop — Lab Session</div></div>
+      <div class="gallery-item" data-cat="lecture" style="background:linear-gradient(135deg,#071428,rgba(255,160,0,0.2))"><span>🎤</span><div class="gallery-label">Google Tech Talk — Dr. Ravi Shankar</div></div>
+      <div class="gallery-item" data-cat="hackathon" style="background:linear-gradient(135deg,#071428,rgba(200,0,255,0.15))"><span>🏆</span><div class="gallery-label">HackFest 2024 — Prize Distribution</div></div>
+      <div class="gallery-item" data-cat="team" style="background:linear-gradient(135deg,#071428,rgba(0,229,255,0.2))"><span>👥</span><div class="gallery-label">ACM VJIT Core Team 2024</div></div>
+      <div class="gallery-item" data-cat="workshop" style="background:linear-gradient(135deg,#071428,rgba(100,200,255,0.2))"><span>☁️</span><div class="gallery-label">AWS Cloud Workshop</div></div>
+      <div class="gallery-item" data-cat="hackathon" style="background:linear-gradient(135deg,#071428,rgba(255,100,50,0.2))"><span>💻</span><div class="gallery-label">HackFest 2023 — Coding Night</div></div>
+      <div class="gallery-item" data-cat="lecture" style="background:linear-gradient(135deg,#071428,rgba(50,255,100,0.15))"><span>🧠</span><div class="gallery-label">Blockchain Seminar — Expert Session</div></div>
+      <div class="gallery-item" data-cat="workshop" style="background:linear-gradient(135deg,#071428,rgba(150,50,255,0.2))"><span>🔐</span><div class="gallery-label">Ethical Hacking Workshop</div></div>
+      <div class="gallery-item" data-cat="team" style="background:linear-gradient(135deg,#071428,rgba(255,215,0,0.15))"><span>🎉</span><div class="gallery-label">ACM Day Celebration 2024</div></div>
+      <div class="gallery-item" data-cat="workshop" style="background:linear-gradient(135deg,#071428,rgba(0,180,255,0.2))"><span>📊</span><div class="gallery-label">Data Science Bootcamp</div></div>
+      <div class="gallery-item" data-cat="lecture" style="background:linear-gradient(135deg,#071428,rgba(255,100,200,0.15))"><span>🌐</span><div class="gallery-label">Industry Connect — Microsoft Visit</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: JOIN
+════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-join">
+  <div class="join-hero">
+    <span class="section-tag">Become a Member</span>
+    <h1 class="section-title">Join <span>ACM VJIT</span></h1>
+    <p class="section-desc" style="margin:0 auto">Take the first step toward a thriving career in computing</p>
+  </div>
+  <div class="section">
+    <div class="grid-2" style="gap:60px;align-items:start">
+      <div>
+        <span class="section-tag">Why Join?</span>
+        <h2 class="section-title">Membership <span>Benefits</span></h2>
+        <div class="benefits-grid">
+          <div class="benefit-item">
+            <div class="benefit-check">✓</div>
+            <div><div style="font-weight:600;font-size:13px;color:var(--white);margin-bottom:3px">Free Workshop Access</div><div style="font-size:12px;color:var(--text-dim)">Attend all technical workshops and bootcamps at no cost</div></div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-check">✓</div>
+            <div><div style="font-weight:600;font-size:13px;color:var(--white);margin-bottom:3px">ACM Digital Library</div><div style="font-size:12px;color:var(--text-dim)">Access to the world's largest computing research library</div></div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-check">✓</div>
+            <div><div style="font-weight:600;font-size:13px;color:var(--white);margin-bottom:3px">Hackathon Priority</div><div style="font-size:12px;color:var(--text-dim)">Early registration and discounts for all hackathons</div></div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-check">✓</div>
+            <div><div style="font-weight:600;font-size:13px;color:var(--white);margin-bottom:3px">Mentorship Program</div><div style="font-size:12px;color:var(--text-dim)">Get mentored by senior students and industry professionals</div></div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-check">✓</div>
+            <div><div style="font-weight:600;font-size:13px;color:var(--white);margin-bottom:3px">Internship Network</div><div style="font-size:12px;color:var(--text-dim)">Access to exclusive internship and job referrals from alumni</div></div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-check">✓</div>
+            <div><div style="font-weight:600;font-size:13px;color:var(--white);margin-bottom:3px">ACM Global Network</div><div style="font-size:12px;color:var(--text-dim)">Connect with 100,000+ computing professionals worldwide</div></div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-check">✓</div>
+            <div><div style="font-weight:600;font-size:13px;color:var(--white);margin-bottom:3px">Certificate of Membership</div><div style="font-size:12px;color:var(--text-dim)">Official ACM membership certificate for your resume</div></div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-check">✓</div>
+            <div><div style="font-weight:600;font-size:13px;color:var(--white);margin-bottom:3px">Project Collaboration</div><div style="font-size:12px;color:var(--text-dim)">Work on real-world projects with a team of passionate peers</div></div>
+          </div>
+        </div>
+        <div style="background:linear-gradient(135deg,rgba(15,143,255,0.08),transparent);border:1px solid var(--border);border-radius:12px;padding:20px">
+          <div style="font-size:12px;color:var(--cyan);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Annual Membership Fee</div>
+          <div style="font-family:'Orbitron',sans-serif;font-size:28px;font-weight:900;color:var(--white)">₹500 <span style="font-size:14px;color:var(--text-dim);font-weight:400;font-family:'Exo 2',sans-serif">/ year</span></div>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:4px">Includes ACM Student Membership (International)</div>
+        </div>
+      </div>
+      <div>
+        <div class="join-form">
+          <div style="font-family:'Orbitron',sans-serif;font-size:16px;font-weight:700;color:var(--white);margin-bottom:4px">Membership Registration</div>
+          <div style="font-size:12px;color:var(--text-dim);margin-bottom:24px">Fill in your details to join ACM VJIT</div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">First Name</label><input class="form-input" placeholder="Arjun" type="text"></div>
+            <div class="form-group"><label class="form-label">Last Name</label><input class="form-input" placeholder="Reddy" type="text"></div>
+          </div>
+          <div class="form-group"><label class="form-label">College Email</label><input class="form-input" placeholder="yourname@vjit.ac.in" type="email"></div>
+          <div class="form-group"><label class="form-label">Roll Number</label><input class="form-input" placeholder="21VJ1A0501" type="text"></div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Branch</label>
+              <select class="form-select form-input">
+                <option>Select Branch</option>
+                <option>CSE</option><option>CSE (AI&ML)</option><option>CSE (DS)</option>
+                <option>IT</option><option>ECE</option><option>EEE</option><option>ME</option><option>CE</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Year</label>
+              <select class="form-select form-input">
+                <option>Select Year</option>
+                <option>1st Year</option><option>2nd Year</option><option>3rd Year</option><option>4th Year</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Areas of Interest</label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+              <button class="topic-tag-btn" onclick="this.classList.toggle('selected')">AI/ML</button>
+              <button class="topic-tag-btn" onclick="this.classList.toggle('selected')">Web Dev</button>
+              <button class="topic-tag-btn" onclick="this.classList.toggle('selected')">Cloud</button>
+              <button class="topic-tag-btn" onclick="this.classList.toggle('selected')">CyberSec</button>
+              <button class="topic-tag-btn" onclick="this.classList.toggle('selected')">IoT</button>
+              <button class="topic-tag-btn" onclick="this.classList.toggle('selected')">Research</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Why do you want to join ACM?</label>
+            <textarea class="form-textarea" placeholder="Tell us a bit about yourself and your goals..."></textarea>
+          </div>
+          <button class="btn-primary" style="width:100%;justify-content:center;margin-top:4px" onclick="submitJoinForm()">🚀 Submit Application</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: CONTACT
+════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-contact">
+  <div style="padding:80px 40px 40px;text-align:center;background:linear-gradient(135deg,var(--bg),var(--bg3))">
+    <span class="section-tag">Get In Touch</span>
+    <h1 class="section-title">Contact <span>Us</span></h1>
+    <p class="section-desc" style="margin:0 auto">We'd love to hear from you — reach out for collaborations, queries, or just to say hello</p>
+  </div>
+  <div class="section">
+    <div class="contact-grid">
+      <div>
+        <div class="contact-info-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <div style="font-weight:600;color:var(--white);margin-bottom:3px">Address</div>
+            <div style="font-size:13px;color:var(--text-dim);line-height:1.7">Vignana Jyothi Institute of Technology<br>Bachupally, Hyderabad, Telangana 500090</div>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <div style="font-weight:600;color:var(--white);margin-bottom:3px">Email</div>
+            <div style="font-size:13px;color:var(--blue-bright)">acm@vjit.ac.in</div>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <div style="font-weight:600;color:var(--white);margin-bottom:3px">Phone</div>
+            <div style="font-size:13px;color:var(--text-dim)">+91 98765 43210</div>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-icon">🕒</div>
+          <div>
+            <div style="font-weight:600;color:var(--white);margin-bottom:3px">Office Hours</div>
+            <div style="font-size:13px;color:var(--text-dim)">Mon–Fri: 10:00 AM – 5:00 PM<br>Sat: 10:00 AM – 1:00 PM</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:600;color:var(--white);margin-bottom:12px">Follow Us</div>
+          <div class="social-links">
+            <a class="social-link" href="#" title="LinkedIn">in</a>
+            <a class="social-link" href="#" title="GitHub">⌥</a>
+            <a class="social-link" href="#" title="Twitter">𝕏</a>
+            <a class="social-link" href="#" title="Instagram">◈</a>
+            <a class="social-link" href="#" title="Discord">◎</a>
+            <a class="social-link" href="#" title="YouTube">▶</a>
+          </div>
+        </div>
+        <div class="map-placeholder">
+          <div class="map-pin">📍</div>
+          <div>VJIT Campus, Bachupally</div>
+          <div style="font-size:11px;color:var(--text-dim)">Hyderabad, Telangana</div>
+          <button class="btn-outline" style="font-size:11px;padding:8px 16px;margin-top:8px" onclick="showToast('🗺 Opening in Google Maps...')">Open in Maps</button>
+        </div>
+      </div>
+      <div>
+        <div class="join-form" style="max-width:none">
+          <div style="font-family:'Orbitron',sans-serif;font-size:16px;font-weight:700;color:var(--white);margin-bottom:4px">Send Us a Message</div>
+          <div style="font-size:12px;color:var(--text-dim);margin-bottom:24px">We'll get back to you within 24 hours</div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Your Name</label><input class="form-input" placeholder="Full Name" type="text"></div>
+            <div class="form-group"><label class="form-label">Email</label><input class="form-input" placeholder="you@email.com" type="email"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Subject</label>
+            <select class="form-select form-input">
+              <option>Select a Subject</option>
+              <option>General Inquiry</option>
+              <option>Collaboration / Partnership</option>
+              <option>Event Organization</option>
+              <option>Sponsorship</option>
+              <option>Media / Press</option>
+              <option>Technical Support</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Message</label>
+            <textarea class="form-textarea" style="min-height:140px" placeholder="Tell us what's on your mind..."></textarea>
+          </div>
+          <button class="btn-primary" style="width:100%;justify-content:center" onclick="submitContactForm()">📤 Send Message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: DASHBOARD
+════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-dashboard">
+  <div class="dashboard-hero">
+    <div style="max-width:1200px;margin:0 auto">
+      <span class="section-tag">Member Portal</span>
+      <h1 class="section-title">Member <span>Dashboard</span></h1>
+    </div>
+  </div>
+  <div class="dashboard-grid">
+    <div class="dash-sidebar">
+      <div class="dash-nav-item active" onclick="setDashTab(this,'overview')"><span class="icon">🏠</span> Overview</div>
+      <div class="dash-nav-item" onclick="setDashTab(this,'events')"><span class="icon">📅</span> My Events</div>
+      <div class="dash-nav-item" onclick="setDashTab(this,'resources')"><span class="icon">📚</span> Resources</div>
+      <div class="dash-nav-item" onclick="setDashTab(this,'announcements')"><span class="icon">📣</span> Announcements</div>
+      <div class="dash-nav-item" onclick="setDashTab(this,'profile')"><span class="icon">👤</span> My Profile</div>
+      <div style="margin-top:auto;padding-top:20px">
+        <div class="dash-nav-item" onclick="showToast('🔓 Logged out successfully!')"><span class="icon">🚪</span> Logout</div>
+      </div>
+    </div>
+    <div class="dash-main" id="dash-content">
+      <div class="dash-welcome">
+        <div class="dash-welcome-text">
+          <h2>Welcome back, Arjun! 👋</h2>
+          <p>You have 3 upcoming events and 2 new announcements</p>
+        </div>
+        <button class="btn-primary" style="font-size:12px;padding:10px 22px" onclick="navigateTo('join')">Renew Membership →</button>
+      </div>
+      <div class="dash-stat-cards">
+        <div class="dash-stat"><div class="dash-stat-n">12</div><div class="dash-stat-l">Events Attended</div></div>
+        <div class="dash-stat"><div class="dash-stat-n">3</div><div class="dash-stat-l">Upcoming Events</div></div>
+        <div class="dash-stat"><div class="dash-stat-n">2</div><div class="dash-stat-l">Projects Joined</div></div>
+      </div>
+      <div>
+        <div style="font-weight:700;font-size:15px;color:var(--white);margin-bottom:14px;display:flex;align-items:center;gap:8px">📣 Announcements <span class="badge badge-cyan" style="font-size:10px">2 New</span></div>
+        <div class="announcement-list">
+          <div class="announcement">
+            <div class="ann-dot"></div>
+            <div>
+              <div class="ann-title">HackFest 2025 — Registration now open!</div>
+              <div class="ann-date">Mar 8, 2025 · Members get 50% discount on team registration</div>
+            </div>
+          </div>
+          <div class="announcement">
+            <div class="ann-dot"></div>
+            <div>
+              <div class="ann-title">ACM Digital Library access renewed for 2025</div>
+              <div class="ann-date">Mar 5, 2025 · Use your member credentials to log in</div>
+            </div>
+          </div>
+          <div class="announcement">
+            <div class="ann-dot" style="background:var(--text-dim);box-shadow:none"></div>
+            <div>
+              <div class="ann-title">AI/ML Bootcamp — Last 20 seats remaining</div>
+              <div class="ann-date">Mar 2, 2025 · Priority for existing members</div>
+            </div>
+          </div>
+          <div class="announcement">
+            <div class="ann-dot" style="background:var(--text-dim);box-shadow:none"></div>
+            <div>
+              <div class="ann-title">New learning resources added to the portal</div>
+              <div class="ann-date">Feb 28, 2025 · 5 new guides on Cloud and DevOps</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-weight:700;font-size:15px;color:var(--white);margin-bottom:14px">📅 Upcoming Events</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div class="resource-item">
+            <div class="resource-icon">🤖</div>
+            <div><div class="resource-title">AI/ML Bootcamp</div><div class="resource-desc">Apr 12–14, 2025 · Seminar Hall, VJIT</div></div>
+            <span class="badge badge-green" style="margin-left:auto">Registered</span>
+          </div>
+          <div class="resource-item">
+            <div class="resource-icon">⚡</div>
+            <div><div class="resource-title">HackFest 2025</div><div class="resource-desc">Apr 26–27, 2025 · VJIT Campus</div></div>
+            <span class="badge badge-orange" style="margin-left:auto">Register</span>
+          </div>
+          <div class="resource-item">
+            <div class="resource-icon">☁️</div>
+            <div><div class="resource-title">Cloud Computing Summit</div><div class="resource-desc">May 5, 2025 · Hybrid</div></div>
+            <span class="badge badge-blue" style="margin-left:auto">Open</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-weight:700;font-size:15px;color:var(--white);margin-bottom:14px">📈 Your Progress</div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;color:var(--text)">Profile Completion</span><span style="font-size:13px;font-weight:600;color:var(--blue-bright)">75%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;color:var(--text)">Events Attended (Goal: 20)</span><span style="font-size:13px;font-weight:600;color:var(--blue-bright)">60%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;color:var(--text)">Membership Validity</span><span style="font-size:13px;font-weight:600;color:var(--success)">Active</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:85%;background:linear-gradient(90deg,#00e676,#00b0ff)"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: COMMUNITY
+════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-community">
+  <div style="padding:80px 40px 40px;text-align:center;background:linear-gradient(135deg,var(--bg),var(--bg3))">
+    <span class="section-tag">Discussion Hub</span>
+    <h1 class="section-title">Community <span>Forum</span></h1>
+    <p class="section-desc" style="margin:0 auto">Share ideas, ask questions, and connect with fellow ACM members</p>
+  </div>
+  <div class="community-section" style="max-width:1100px;margin:0 auto">
+    <div class="discussion-composer">
+      <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px">
+        <div style="width:40px;height:40px;min-width:40px;border-radius:50%;background:linear-gradient(135deg,var(--blue-deep),var(--blue-core));display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff">A</div>
+        <textarea class="composer-input" id="post-input" placeholder="Share a tech question, project update, or discussion topic with the ACM community..."></textarea>
+      </div>
+      <div class="composer-footer">
+        <div>
+          <div style="font-size:11px;color:var(--text-dim);margin-bottom:6px;letter-spacing:1px;text-transform:uppercase">Tag your post:</div>
+          <div class="topic-tags" id="post-tags">
+            <button class="topic-tag-btn" onclick="this.classList.toggle('selected')">💬 General</button>
+            <button class="topic-tag-btn" onclick="this.classList.toggle('selected')">🤖 AI/ML</button>
+            <button class="topic-tag-btn" onclick="this.classList.toggle('selected')">🌐 Web Dev</button>
+            <button class="topic-tag-btn" onclick="this.classList.toggle('selected')">💻 DSA</button>
+            <button class="topic-tag-btn" onclick="this.classList.toggle('selected')">🏆 Hackathon</button>
+            <button class="topic-tag-btn" onclick="this.classList.toggle('selected')">📚 Resources</button>
+          </div>
+        </div>
+        <button class="btn-primary" style="font-size:12px;padding:10px 22px" onclick="submitPost()">Post →</button>
+      </div>
+    </div>
+
+    <div id="post-list" class="post-list">
+      <div class="post-card">
+        <div class="post-header">
+          <div class="post-avatar">R</div>
+          <div><div class="post-author">Ravi Kumar</div><div class="post-time">2 hours ago</div></div>
+          <span class="badge badge-blue" style="margin-left:auto">🤖 AI/ML</span>
+        </div>
+        <div class="post-content">Has anyone tried fine-tuning Llama 3 on custom datasets? I'm working on a domain-specific QA system and would love to discuss the dataset preparation and PEFT techniques. Any tips on LoRA vs full fine-tuning for smaller GPU setups?</div>
+        <div class="post-actions">
+          <button class="post-action-btn" onclick="likePost(this)">❤️ <span>12</span></button>
+          <button class="post-action-btn" onclick="showToast('💬 Reply feature coming soon!')">💬 Reply <span>5</span></button>
+          <button class="post-action-btn" onclick="showToast('🔗 Link copied!')">🔗 Share</button>
+        </div>
+      </div>
+      <div class="post-card">
+        <div class="post-header">
+          <div class="post-avatar" style="background:linear-gradient(135deg,#006400,#00c853)">K</div>
+          <div><div class="post-author">Kavya Nair</div><div class="post-time">5 hours ago</div></div>
+          <span class="badge badge-green" style="margin-left:auto">🏆 Hackathon</span>
+        </div>
+        <div class="post-content">Super excited to announce that our team "ByteForge" has been selected for the Smart India Hackathon 2025 finals! 🎉 We're building an AI-powered sign language interpreter. Would love feedback from the community — anyone experienced with MediaPipe Holistic?</div>
+        <div class="post-actions">
+          <button class="post-action-btn" onclick="likePost(this)">❤️ <span>34</span></button>
+          <button class="post-action-btn" onclick="showToast('💬 Reply feature coming soon!')">💬 Reply <span>18</span></button>
+          <button class="post-action-btn" onclick="showToast('🔗 Link copied!')">🔗 Share</button>
+        </div>
+      </div>
+      <div class="post-card">
+        <div class="post-header">
+          <div class="post-avatar" style="background:linear-gradient(135deg,#7b1fa2,#ab47bc)">V</div>
+          <div><div class="post-author">Vikram Patel</div><div class="post-time">Yesterday</div></div>
+          <span class="badge badge-cyan" style="margin-left:auto">📚 Resources</span>
+        </div>
+        <div class="post-content">Sharing a curated list of free resources for GATE CS 2026 preparation — includes topic-wise PYQs, video playlists, and a study schedule template. The data structures and algorithms section has links to 500+ problems organized by difficulty. Check the ACM resources page for the full PDF!</div>
+        <div class="post-actions">
+          <button class="post-action-btn" onclick="likePost(this)">❤️ <span>28</span></button>
+          <button class="post-action-btn" onclick="showToast('💬 Reply feature coming soon!')">💬 Reply <span>9</span></button>
+          <button class="post-action-btn" onclick="showToast('🔗 Link copied!')">🔗 Share</button>
+        </div>
+      </div>
+      <div class="post-card">
+        <div class="post-header">
+          <div class="post-avatar" style="background:linear-gradient(135deg,#bf360c,#ff5722)">A</div>
+          <div><div class="post-author">Aditya Rao</div><div class="post-time">2 days ago</div></div>
+          <span class="badge badge-orange" style="margin-left:auto">💻 DSA</span>
+        </div>
+        <div class="post-content">Quick tip for anyone preparing for placements: don't just solve problems, analyze the time-space complexity of every solution and think about edge cases. I've been doing mock interviews with peers — it's made a huge difference. DM me if you want to pair up for mock interviews!</div>
+        <div class="post-actions">
+          <button class="post-action-btn" onclick="likePost(this)">❤️ <span>41</span></button>
+          <button class="post-action-btn" onclick="showToast('💬 Reply feature coming soon!')">💬 Reply <span>22</span></button>
+          <button class="post-action-btn" onclick="showToast('🔗 Link copied!')">🔗 Share</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ TOAST ═══════════ -->
+<div id="toast-container"></div>
+
+<script>
+// ══════════════════════════════════════════════
+//  STAR FIELD
+// ══════════════════════════════════════════════
+const canvas = document.getElementById('stars-canvas');
+const ctx = canvas.getContext('2d');
+function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
+resizeCanvas();
+window.addEventListener('resize',resizeCanvas);
+const STARS = Array.from({length:200},()=>({
+  x:Math.random(),y:Math.random(),
+  r:Math.random()*1.4,
+  speed:Math.random()*0.0003+0.0001,
+  opacity:Math.random()*0.7+0.1,
+  twinkleSpeed:Math.random()*0.02+0.005,
+  twinklePhase:Math.random()*Math.PI*2
+}));
+function drawStars(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  STARS.forEach(s=>{
+    s.twinklePhase+=s.twinkleSpeed;
+    const alpha=s.opacity*(0.5+0.5*Math.sin(s.twinklePhase));
+    ctx.beginPath();
+    ctx.arc(s.x*canvas.width,s.y*canvas.height,s.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(160,210,255,${alpha})`;
+    ctx.fill();
+    s.y-=s.speed;
+    if(s.y<0){s.y=1;s.x=Math.random()}
+  });
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+// ══════════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════════
+function navigateTo(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const target=document.getElementById('page-'+page);
+  if(target){target.classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    a.classList.toggle('active',a.dataset.page===page);
+  });
+  return false;
+}
+function openMenu(){document.getElementById('mobileMenu').classList.add('open')}
+function closeMenu(){document.getElementById('mobileMenu').classList.remove('open')}
+
+// ══════════════════════════════════════════════
+//  THEME TOGGLE
+// ══════════════════════════════════════════════
+let isDark=true;
+function toggleTheme(){
+  isDark=!isDark;
+  document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
+  document.getElementById('theme-btn').textContent=isDark?'🌙':'☀️';
+}
+
+// ══════════════════════════════════════════════
+//  STATS COUNTER ANIMATION
+// ══════════════════════════════════════════════
+function animateStats(){
+  document.querySelectorAll('.stat-num[data-target]').forEach(el=>{
+    const target=parseInt(el.dataset.target);
+    let current=0;
+    const step=target/60;
+    const timer=setInterval(()=>{
+      current=Math.min(current+step,target);
+      el.textContent=Math.round(current)+(target>=100?'+':'');
+      if(current>=target)clearInterval(timer);
+    },20);
+  });
+}
+setTimeout(animateStats,300);
+
+// ══════════════════════════════════════════════
+//  COUNTDOWN TIMER
+// ══════════════════════════════════════════════
+const hackfestDate=new Date('2025-04-26T09:00:00');
+function updateCountdown(){
+  const now=new Date();
+  const diff=hackfestDate-now;
+  if(diff<=0){
+    ['cd-days','cd-hrs','cd-min','cd-sec'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el)el.textContent='00';
+    });
+    return;
+  }
+  const days=Math.floor(diff/86400000);
+  const hrs=Math.floor((diff%86400000)/3600000);
+  const min=Math.floor((diff%3600000)/60000);
+  const sec=Math.floor((diff%60000)/1000);
+  const fmt=n=>String(n).padStart(2,'0');
+  const setEl=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=fmt(v)};
+  setEl('cd-days',days);setEl('cd-hrs',hrs);setEl('cd-min',min);setEl('cd-sec',sec);
+}
+updateCountdown();
+setInterval(updateCountdown,1000);
+
+// ══════════════════════════════════════════════
+//  EVENT TABS
+// ══════════════════════════════════════════════
+function switchTab(btn,tab){
+  document.querySelectorAll('.events-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-upcoming').style.display=tab==='upcoming'?'block':'none';
+  document.getElementById('tab-past').style.display=tab==='past'?'block':'none';
+}
+
+// ══════════════════════════════════════════════
+//  PROJECT FILTER
+// ══════════════════════════════════════════════
+function filterProjects(btn,cat){
+  document.querySelectorAll('#projects-grid .topic-tag-btn,button.topic-tag-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.querySelectorAll('#projects-grid .project-card').forEach(card=>{
+    const cardCat=card.dataset.cat||'';
+    card.style.display=(cat==='all'||cardCat.includes(cat))?'block':'none';
+  });
+}
+
+// ══════════════════════════════════════════════
+//  GALLERY FILTER
+// ══════════════════════════════════════════════
+function filterGallery(btn,cat){
+  document.querySelectorAll('.gallery-grid').forEach(()=>{});
+  btn.closest('div').querySelectorAll('.topic-tag-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.querySelectorAll('#gallery-grid .gallery-item').forEach(item=>{
+    const itemCat=item.dataset.cat||'';
+    item.style.display=(cat==='all'||itemCat===cat)?'flex':'none';
+  });
+}
+
+// ══════════════════════════════════════════════
+//  DASHBOARD TAB
+// ══════════════════════════════════════════════
+function setDashTab(btn,tab){
+  document.querySelectorAll('.dash-nav-item').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ══════════════════════════════════════════════
+//  COMMUNITY POST
+// ══════════════════════════════════════════════
+let postCount=0;
+function submitPost(){
+  const input=document.getElementById('post-input');
+  const text=input.value.trim();
+  if(!text){showToast('⚠️ Please write something first!');return}
+  const selectedTags=Array.from(document.querySelectorAll('#post-tags .topic-tag-btn.selected')).map(b=>b.textContent.trim());
+  const tagHtml=selectedTags.length>0?`<span class="badge badge-blue" style="margin-left:auto">${selectedTags[0]}</span>`:'';
+  const names=['You'];
+  const colors=['linear-gradient(135deg,#0f8fff,#40c4ff)'];
+  const postHtml=`
+    <div class="post-card" style="animation:pageIn 0.4s ease">
+      <div class="post-header">
+        <div class="post-avatar" style="background:${colors[0]}">Y</div>
+        <div><div class="post-author">You</div><div class="post-time">Just now</div></div>
+        ${tagHtml}
+      </div>
+      <div class="post-content">${text.replace(/</g,'&lt;')}</div>
+      <div class="post-actions">
+        <button class="post-action-btn" onclick="likePost(this)">❤️ <span>0</span></button>
+        <button class="post-action-btn" onclick="showToast('💬 Reply feature coming soon!')">💬 Reply <span>0</span></button>
+        <button class="post-action-btn" onclick="showToast('🔗 Link copied!')">🔗 Share</button>
+      </div>
+    </div>`;
+  const list=document.getElementById('post-list');
+  list.insertAdjacentHTML('afterbegin',postHtml);
+  input.value='';
+  document.querySelectorAll('#post-tags .topic-tag-btn').forEach(b=>b.classList.remove('selected'));
+  showToast('✅ Post shared with the community!');
+}
+
+function likePost(btn){
+  const span=btn.querySelector('span');
+  span.textContent=parseInt(span.textContent)+1;
+  btn.style.color='#ff4d6d';
+  btn.disabled=true;
+}
+
+// ══════════════════════════════════════════════
+//  FORMS
+// ══════════════════════════════════════════════
+function submitJoinForm(){showToast('🎉 Application submitted! We\'ll contact you within 2 days.')}
+function submitContactForm(){showToast('📤 Message sent! We\'ll reply within 24 hours.')}
+
+// ══════════════════════════════════════════════
+//  TOAST
+// ══════════════════════════════════════════════
+function showToast(msg){
+  const tc=document.getElementById('toast-container');
+  const toast=document.createElement('div');
+  toast.className='toast';
+  toast.innerHTML=msg;
+  tc.appendChild(toast);
+  setTimeout(()=>toast.remove(),3500);
+}
+
+// ══════════════════════════════════════════════
+//  NAVBAR SCROLL
+// ══════════════════════════════════════════════
+window.addEventListener('scroll',()=>{
+  const nb=document.getElementById('navbar');
+  nb.style.boxShadow=window.scrollY>20?'0 4px 30px rgba(0,0,0,0.3)':'none';
+});
+</script>
+</body>
+</html>
